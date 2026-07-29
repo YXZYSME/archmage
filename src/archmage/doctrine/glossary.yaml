@@ -1,0 +1,92 @@
+# ARCHMAGE: Domain Glossary & Machine-Readable Spec
+
+This document establishes the canonical domain vocabulary for ARCHMAGE. It defines the formal concepts used in policy enforcement, agent observation, and boundary governance.
+
+## 1. Human-Readable Domain Glossary
+
+| Term | Domain Category | Definition |
+| :--- | :--- | :--- |
+| **Policy** | Governance | A specific, machine-readable rule that evaluates a proposed action against measurable constraints (e.g., "banning imports of `os`"). |
+| **Law** | Governance | An immutable, structural invariant that governs all actions in a system (e.g., the Law of Territory which forbids writes outside the workspace). |
+| **Gate** | Architecture | A check point in the agent runtime lifecycle where execution is intercepted, checked, and either allowed, denied, or escalated. |
+| **Evaluator** | Engine | The logical routine within a Gate that evaluates an action against a specific Policy or Law to yield a verdict and produce evidence. |
+| **Obligation** | Execution | An action that an agent or runtime is forced to execute as a prerequisite or follow-up to a tool call (e.g., writing an audit trail). |
+| **Evidence** | Forensic | The verifiable records, hashes, or state parameters collected by an Evaluator to justify its validation verdict. |
+| **Exception** | Governance | A declared, authorized bypass of a specific Policy or Law under highly controlled context constraints (e.g., temporary system write access). |
+| **Repair** | Enforcement | An automated operation executed by the runtime to restore system state or correct a noncompliant action (e.g., resetting modified files). |
+| **Skill** | Capabilities | A package of declarative instructions and scripts that equips an agent with specific, verified task capabilities. |
+| **Bundle** | Delivery | A self-contained package of schemas, configuration files, rules, and validators that can be shipped and run on any compliant runtime. |
+| **Agent** | Actor | An autonomous software entity driven by an LLM that completes tasks by executing tool calls and managing context. |
+| **Actor** | Identity | Any entity (human or agent) that initiates an action or requests a change in state within the governed system. |
+| **Action** | Lifecycle | A proposed tool call or operation submitted by an Actor that could mutate filesystem, network, or process state. |
+| **Artifact** | Execution | Any durable product of an action, such as a file, code module, database entry, test report, or approval receipt. |
+| **Handoff** | Lifecycle | The transition of control, task context, or execution state from one agent to another, or from an agent back to a human. |
+| **Trace** | Observability | A chronological, immutable sequence of execution events, span contexts, and metrics recorded during an agent session. |
+| **Scope** | Security | The bounded operational directory, permission set, or resources to which an Actor is authorized to make access. |
+| **Identity** | Security | The unique, verified identifier (e.g., a UUID or cryptographic key) that establishes the origin and authority of an Actor. |
+
+---
+
+## 2. Machine-Readable Vocabulary Specification (YAML)
+
+The YAML codeblock below contains the exact same definitions for automated consumption by parser runtimes, compilers, and compliance validators:
+
+```yaml
+version: "1.0.0"
+namespace: "archmage.domain.glossary"
+definitions:
+  policy:
+    category: "Governance"
+    definition: "A specific, machine-readable rule that evaluates a proposed action against measurable constraints (e.g., banning imports of os)."
+  law:
+    category: "Governance"
+    definition: "An immutable, structural invariant that governs all actions in a system (e.g., the Law of Territory which forbids writes outside the workspace)."
+  gate:
+    category: "Architecture"
+    definition: "A check point in the agent runtime lifecycle where execution is intercepted, checked, and either allowed, denied, or escalated."
+  evaluator:
+    category: "Engine"
+    definition: "The logical routine within a Gate that evaluates an action against a specific Policy or Law to yield a verdict and produce evidence."
+  obligation:
+    category: "Execution"
+    definition: "An action that an agent or runtime is forced to execute as a prerequisite or follow-up to a tool call (e.g., writing an audit trail)."
+  evidence:
+    category: "Forensic"
+    definition: "The verifiable records, hashes, or state parameters collected by an Evaluator to justify its validation verdict."
+  exception:
+    category: "Governance"
+    definition: "A declared, authorized bypass of a specific Policy or Law under highly controlled context constraints (e.g., temporary system write access)."
+  repair:
+    category: "Enforcement"
+    definition: "An automated operation executed by the runtime to restore system state or correct a noncompliant action (e.g., resetting modified files)."
+  skill:
+    category: "Capabilities"
+    definition: "A package of declarative instructions and scripts that equips an agent with specific, verified task capabilities."
+  bundle:
+    category: "Delivery"
+    definition: "A self-contained package of schemas, configuration files, rules, and validators that can be shipped and run on any compliant runtime."
+  agent:
+    category: "Actor"
+    definition: "An autonomous software entity driven by an LLM that completes tasks by executing tool calls and managing context."
+  actor:
+    category: "Identity"
+    definition: "Any entity (human or agent) that initiates an action or requests a change in state within the governed system."
+  action:
+    category: "Lifecycle"
+    definition: "A proposed tool call or operation submitted by an Actor that could mutate filesystem, network, or process state."
+  artifact:
+    category: "Execution"
+    definition: "Any durable product of an action, such as a file, code module, database entry, test report, or approval receipt."
+  handoff:
+    category: "Lifecycle"
+    definition: "The transition of control, task context, or execution state from one agent to another, or from an agent back to a human."
+  trace:
+    category: "Observability"
+    definition: "A chronological, immutable sequence of execution events, span contexts, and metrics recorded during an agent session."
+  scope:
+    category: "Security"
+    definition: "The bounded operational directory, permission set, or resources to which an Actor is authorized to make access."
+  identity:
+    category: "Security"
+    definition: "The unique, verified identifier (e.g., a UUID or cryptographic key) that establishes the origin and authority of an Actor."
+```

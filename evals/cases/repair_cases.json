@@ -1,0 +1,54 @@
+{
+  "_brand": "YXZYS | saeng-il ai [research]",
+  "_watermark": "yxzys:sg:ai",
+  "schema_version": "1.0.0",
+  "cases": [
+    {
+      "case_id": "RL-001",
+      "title": "Rename a generic artifact",
+      "context": {"workspace": "/workspace/project", "environment": "benchmark", "audit_logger_configured": true},
+      "proposal": {
+        "task_id": "repair-001",
+        "actor": {"actor_id": "benchmark-agent", "actor_type": "agent"},
+        "operation": "write_file",
+        "tool": "write_to_file",
+        "arguments": {"TargetFile": "src/utils.py"},
+        "target_paths": ["src/utils.py"],
+        "requested_side_effects": [],
+        "repository_revision": "0123456789abcdef0123456789abcdef01234567",
+        "environment": "benchmark"
+      },
+      "repairs": [
+        {
+          "arguments": {"TargetFile": "src/policy_registry.py"},
+          "target_paths": ["src/policy_registry.py"]
+        }
+      ]
+    },
+    {
+      "case_id": "RL-002",
+      "title": "Attach benchmark evidence",
+      "context": {"workspace": "/workspace/project", "environment": "benchmark", "audit_logger_configured": true},
+      "proposal": {
+        "task_id": "repair-002",
+        "actor": {"actor_id": "benchmark-agent", "actor_type": "agent"},
+        "operation": "write_file",
+        "tool": "write_to_file",
+        "arguments": {"TargetFile": "docs/performance.md", "claim_type": "performance"},
+        "target_paths": ["docs/performance.md"],
+        "requested_side_effects": [],
+        "repository_revision": "0123456789abcdef0123456789abcdef01234567",
+        "environment": "benchmark"
+      },
+      "repairs": [
+        {
+          "arguments": {
+            "TargetFile": "docs/performance.md",
+            "claim_type": "performance",
+            "evidence_id": "benchmark-result-001"
+          }
+        }
+      ]
+    }
+  ]
+}

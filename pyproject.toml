@@ -1,0 +1,103 @@
+# YXZYS | saeng-il ai [development] — © YXZYS @ saengil.ai
+
+[build-system]
+requires = ["setuptools>=77,<82"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "archmage-ai"
+version = "2.0.0"
+description = "Deterministic pre-execution control for coding-agent actions."
+readme = { file = "README.md", content-type = "text/markdown" }
+requires-python = ">=3.9"
+license = "Apache-2.0"
+authors = [
+    { name = "YXZYS", email = "yxzys@proton.me" },
+]
+keywords = [
+    "agent governance",
+    "coding agents",
+    "policy enforcement",
+    "runtime security",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Software Development :: Testing",
+    "Typing :: Typed",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "build>=1.2,<2",
+    "mypy>=1.13,<2",
+    "pytest>=8,<10",
+    "pytest-cov>=5,<8",
+    "ruff>=0.8,<1",
+    "twine>=6,<8",
+]
+docs = [
+    "mkdocs-material>=9.5,<10",
+]
+
+[project.urls]
+Homepage = "https://github.com/YXZYSME/archmage"
+Documentation = "https://yxzysme.github.io/archmage/"
+Issues = "https://github.com/YXZYSME/archmage/issues"
+Repository = "https://github.com/YXZYSME/archmage"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["archmage*"]
+
+[tool.setuptools.package-data]
+archmage = [
+    "py.typed",
+    "doctrine/*.md",
+    "doctrine/*.yaml",
+]
+
+[tool.setuptools.data-files]
+"share/archmage" = ["SKILL.md", "manifest.yaml"]
+"share/archmage/skills/archmage-boundaries" = ["skills/archmage-boundaries/SKILL.md"]
+"share/archmage/skills/archmage-change-control" = ["skills/archmage-change-control/SKILL.md"]
+"share/archmage/skills/archmage-context" = ["skills/archmage-context/SKILL.md"]
+"share/archmage/skills/archmage-contracts" = ["skills/archmage-contracts/SKILL.md"]
+"share/archmage/skills/archmage-evidence" = ["skills/archmage-evidence/SKILL.md"]
+"share/archmage/skills/archmage-naming" = ["skills/archmage-naming/SKILL.md"]
+"share/archmage/skills/archmage-review" = ["skills/archmage-review/SKILL.md"]
+
+[tool.pytest.ini_options]
+addopts = "--strict-config --strict-markers"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["B", "E", "F", "I"]
+
+[tool.mypy]
+python_version = "3.9"
+strict = true
+files = ["src/archmage"]
+
+[tool.saengil]
+tier = "development"
+context = "personal"

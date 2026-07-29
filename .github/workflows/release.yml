@@ -1,0 +1,153 @@
+# YXZYS | saeng-il ai [integration] — © YXZYS @ saengil.ai
+
+name: Release
+
+on:
+  release:
+    types:
+      - published
+
+permissions: {}
+
+jobs:
+  build-and-attest:
+    name: Build and attest
+    if: github.event.repository.visibility == 'public'
+    runs-on: ubuntu-latest
+    env:
+      ARCHMAGE_BENCHMARK_REVISION: ${{ github.sha }}
+    permissions:
+      attestations: write
+      contents: write
+      id-token: write
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Install build dependencies
+        run: >-
+          python -m pip install
+          --disable-pip-version-check
+          .
+          "build>=1.2,<2"
+          "twine>=6,<8"
+
+      - name: Build distributions
+        run: python -m build --outdir release-artifacts/packages
+
+      - name: Validate distributions
+        run: |
+          python -m twine check release-artifacts/packages/*
+          python scripts/verify_distribution.py release-artifacts/packages/*
+
+      - name: Run gold cases
+        run: >-
+          python -m evals.gold_case_runner
+          --json-out release-artifacts/benchmarks/gold-cases.json
+          --markdown-out release-artifacts/benchmarks/gold-cases.md
+
+      - name: Run repair-loop cases
+        run: >-
+          python -m evals.repair_loop_benchmark
+          --json-out release-artifacts/benchmarks/repair-loop.json
+          --markdown-out release-artifacts/benchmarks/repair-loop.md
+
+      - name: Measure policy latency
+        run: >-
+          python -m evals.latency_benchmark
+          --iterations 5000
+          --warmup 100
+          --json-out release-artifacts/benchmarks/latency.json
+
+      - name: Generate benchmark scorecard
+        run: >-
+          python -m evals.benchmark_scorecard
+          --gold release-artifacts/benchmarks/gold-cases.json
+          --repair release-artifacts/benchmarks/repair-loop.json
+          --latency release-artifacts/benchmarks/latency.json
+          --markdown-out release-artifacts/benchmarks/SCORECARD.md
+
+      - name: Generate SPDX SBOM
+        uses: anchore/sbom-action@e22c389904149dbc22b58101806040fa8d37a610 # v0.24.0
+        with:
+          path: release-artifacts/packages
+          format: spdx-json
+          output-file: release-artifacts/archmage-ai.spdx.json
+          upload-artifact: false
+          upload-release-assets: false
+
+      - name: Generate checksums
+        run: >-
+          sha256sum
+          release-artifacts/packages/*
+          release-artifacts/benchmarks/*
+          release-artifacts/archmage-ai.spdx.json
+          > release-artifacts/SHA256SUMS
+
+      - name: Attest build provenance
+        uses: actions/attest@f7c74d28b9d84cb8768d0b8ca14a4bac6ef463e6 # v4.2.0
+        with:
+          subject-path: |
+            release-artifacts/packages/*.whl
+            release-artifacts/packages/*.tar.gz
+
+      - name: Attest SBOM
+        uses: actions/attest@f7c74d28b9d84cb8768d0b8ca14a4bac6ef463e6 # v4.2.0
+        with:
+          subject-path: |
+            release-artifacts/packages/*.whl
+            release-artifacts/packages/*.tar.gz
+          sbom-path: release-artifacts/archmage-ai.spdx.json
+
+      - name: Attest benchmark artifacts
+        uses: actions/attest@f7c74d28b9d84cb8768d0b8ca14a4bac6ef463e6 # v4.2.0
+        with:
+          subject-path: release-artifacts/benchmarks/*
+
+      - name: Upload workflow artifacts
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: release-artifacts
+          path: release-artifacts/
+          if-no-files-found: error
+
+      - name: Upload GitHub release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh release upload "${GITHUB_REF_NAME}"
+          release-artifacts/packages/*
+          release-artifacts/benchmarks/*
+          release-artifacts/SHA256SUMS
+          release-artifacts/archmage-ai.spdx.json
+
+  publish:
+    name: Publish to PyPI
+    if: github.event.repository.visibility == 'public'
+    needs:
+      - build-and-attest
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/project/archmage-ai/
+    permissions:
+      id-token: write
+    steps:
+      - name: Download release artifacts
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: release-artifacts
+          path: release-artifacts
+
+      - name: Publish distributions
+        uses: pypa/gh-action-pypi-publish@ba38be9e461d3875417946c167d0b5f3d385a247 # v1.14.1
+        with:
+          packages-dir: release-artifacts/packages

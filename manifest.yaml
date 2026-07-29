@@ -1,0 +1,58 @@
+bundle_name: "ARCHMAGE V2"
+bundle_version: "2.0.0"
+doctrine_version: "1.0.0"
+policy_api_version: "1.0.0"
+verdict_schema_version: "1.0.0"
+evidence_schema_version: "1.0.0"
+
+included_skills:
+  - archmage-contracts
+  - archmage-boundaries
+  - archmage-naming
+  - archmage-context
+  - archmage-evidence
+  - archmage-change-control
+  - archmage-review
+
+included_policies:
+  - POL-TERRITORY-01
+  - POL-LINEAGE-01
+  - POL-STEWARDSHIP-01
+  - POL-CONCORD-01
+  - POL-TRANSPARENCY-01
+  - POL-CONSERVATISM-01
+  - POL-VERIFICATION-01
+  - POL-SOVEREIGNTY-01
+  - POL-MUTATION-01
+  - POL-LABELING-01
+  - POL-IDENTITY-01
+
+policy_modes:
+  default: "ENFORCE"
+  POL-CONCORD-01: "WARN"
+  POL-VERIFICATION-01: "REPAIR"
+
+required_runtime_capabilities:
+  - Canonical_Path_Resolution
+  - Deterministic_Policy_Aggregation
+
+optional_capabilities:
+  - Authenticated_Identity_Binding
+  - HITL_Dashboard
+  - OpenTelemetry_Export
+  - OS_Sandbox
+
+compatibility_information:
+  python: ">=3.9"
+  os: "agnostic"
+
+adapter_inventory:
+  - generic_adapter
+  - antigravity_adapter
+
+evaluation_suite_version: "1.0.0"
+canonical_entry_point: "archmage.runtime.PolicyEnforcementPoint"
+
+migration_information:
+  v1_compatibility: false
+  rollback_instructions: "Revert to v1 skill definition and remove archmage/runtime hooks."

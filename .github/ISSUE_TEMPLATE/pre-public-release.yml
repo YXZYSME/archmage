@@ -1,0 +1,103 @@
+# YXZYS | saeng-il ai [integration] — © YXZYS @ saengil.ai
+
+name: Pre-public release gate
+description: Track the hard gates required before repository visibility changes.
+title: "release: complete pre-public launch gate"
+labels:
+  - release
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This issue is the authoritative launch gate. Do not make the repository
+        public while any required checkbox is open.
+
+  - type: checkboxes
+    id: exposure
+    attributes:
+      label: Exposure freeze
+      options:
+        - label: "Public visibility remains disabled until every required gate is green."
+          required: true
+        - label: "The candidate is built from the reviewed `public-release` branch."
+          required: true
+
+  - type: checkboxes
+    id: sanitization
+    attributes:
+      label: Redaction and legal-safe sanitization
+      options:
+        - label: "Current files contain no credentials, local paths, usernames, or internal identifiers."
+          required: true
+        - label: "Full Git history has been reviewed and sanitized where required."
+          required: true
+        - label: "Public identity and doctrine wording have been reviewed."
+          required: true
+
+  - type: checkboxes
+    id: package
+    attributes:
+      label: Packaging and compatibility
+      options:
+        - label: "Clean wheel and source distribution pass metadata and content verification."
+          required: true
+        - label: "Wheel installs in a clean environment and imports `archmage`."
+          required: true
+        - label: "CI passes on Python 3.9 through 3.13."
+          required: true
+
+  - type: checkboxes
+    id: supply_chain
+    attributes:
+      label: Supply chain
+      options:
+        - label: "CI, release, and docs actions are pinned to reviewed commit SHAs."
+          required: true
+        - label: "Release workflow emits checksums, an SPDX SBOM, and provenance/SBOM attestations."
+          required: true
+        - label: "PyPI trusted publishing and the protected `pypi` environment are configured."
+          required: true
+        - label: "Verification instructions have been exercised against a release candidate."
+          required: true
+
+  - type: checkboxes
+    id: security
+    attributes:
+      label: Security posture
+      options:
+        - label: "`SECURITY.md` has an approved private disclosure route and support window."
+          required: true
+        - label: "Security scan and lightweight threat model are complete."
+          required: true
+        - label: "Secret scanning and push protection are enabled for public launch."
+          required: true
+        - label: "Security claims map to tests or benchmark cases."
+          required: true
+
+  - type: checkboxes
+    id: docs_benchmarks
+    attributes:
+      label: Documentation and evidence
+      options:
+        - label: "MkDocs builds strictly and GitHub Pages deployment is configured."
+          required: true
+        - label: "Quickstart, architecture, adapters, limitations, and supply-chain docs are reviewed."
+          required: true
+        - label: "Gold-case, repair-loop, and latency benchmarks produce reproducible artifacts."
+          required: true
+        - label: "Published benchmark tables identify revision, case version, and environment."
+          required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Release evidence
+      description: Link the CI run, release candidate, scan, benchmark artifacts, and approval record.
+      placeholder: |
+        CI:
+        Release candidate:
+        Security scan:
+        Benchmark artifacts:
+        Approval:
+    validations:
+      required: true

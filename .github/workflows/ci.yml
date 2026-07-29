@@ -1,0 +1,194 @@
+# YXZYS | saeng-il ai [integration] — © YXZYS @ saengil.ai
+
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - public-release
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version:
+          - "3.9"
+          - "3.10"
+          - "3.11"
+          - "3.12"
+          - "3.13"
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install test dependencies
+        run: python -m pip install --disable-pip-version-check --editable ".[dev]"
+
+      - name: Run tests
+        run: >-
+          python -m pytest
+          --cov=archmage
+          --cov-report=term-missing
+          --cov-fail-under=80
+
+  static-analysis:
+    name: Static analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Install analysis dependencies
+        run: python -m pip install --disable-pip-version-check --editable ".[dev]"
+
+      - name: Check formatting
+        run: python -m ruff format --check .
+
+      - name: Lint
+        run: python -m ruff check .
+
+      - name: Type-check
+        run: python -m mypy
+
+  docs:
+    name: Documentation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Install documentation dependencies
+        run: python -m pip install --disable-pip-version-check --editable ".[docs]"
+
+      - name: Build documentation
+        run: python -m mkdocs build --strict
+
+  benchmarks:
+    name: Deterministic benchmarks
+    runs-on: ubuntu-latest
+    env:
+      ARCHMAGE_BENCHMARK_REVISION: ${{ github.sha }}
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Install ARCHMAGE
+        run: python -m pip install --disable-pip-version-check --editable .
+
+      - name: Run gold cases
+        run: >-
+          python -m evals.gold_case_runner
+          --json-out benchmark-results/gold-cases.json
+          --markdown-out benchmark-results/gold-cases.md
+
+      - name: Run repair-loop cases
+        run: >-
+          python -m evals.repair_loop_benchmark
+          --json-out benchmark-results/repair-loop.json
+          --markdown-out benchmark-results/repair-loop.md
+
+      - name: Measure policy latency
+        run: >-
+          python -m evals.latency_benchmark
+          --iterations 5000
+          --warmup 100
+          --json-out benchmark-results/latency.json
+
+      - name: Generate benchmark scorecard
+        run: >-
+          python -m evals.benchmark_scorecard
+          --gold benchmark-results/gold-cases.json
+          --repair benchmark-results/repair-loop.json
+          --latency benchmark-results/latency.json
+          --markdown-out benchmark-results/SCORECARD.md
+
+      - name: Upload benchmark results
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: benchmark-results
+          path: benchmark-results/
+          if-no-files-found: error
+
+  distribution:
+    name: Distribution
+    needs:
+      - test
+      - static-analysis
+      - docs
+      - benchmarks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Install build dependencies
+        run: >-
+          python -m pip install
+          --disable-pip-version-check
+          "build>=1.2,<2"
+          "twine>=6,<8"
+
+      - name: Build distributions
+        run: python -m build
+
+      - name: Validate metadata
+        run: python -m twine check dist/*
+
+      - name: Validate distribution contents
+        run: python scripts/verify_distribution.py dist/*
+
+      - name: Smoke-test the wheel
+        run: |
+          python -m venv "${{ runner.temp }}/archmage-smoke"
+          "${{ runner.temp }}/archmage-smoke/bin/python" -m pip install dist/*.whl
+          cd "${{ runner.temp }}"
+          "${{ runner.temp }}/archmage-smoke/bin/python" -c "import archmage, archmage.adapters, archmage.evaluators, archmage.runtime"
+
+      - name: Upload distributions
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: python-distributions
+          path: dist/
+          if-no-files-found: error

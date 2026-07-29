@@ -1,0 +1,1 @@
+"""ARCHMAGE doctrine package."""

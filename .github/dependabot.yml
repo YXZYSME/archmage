@@ -1,0 +1,23 @@
+# YXZYS | saeng-il ai [integration] — © YXZYS @ saengil.ai
+
+version: 2
+updates:
+  - package-ecosystem: pip
+    directory: /
+    schedule:
+      interval: weekly
+    labels:
+      - dependencies
+      - python
+    # Keep routine version updates paused; security updates remain enabled.
+    open-pull-requests-limit: 0
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    labels:
+      - dependencies
+      - github-actions
+    # Keep routine version updates paused; security updates remain enabled.
+    open-pull-requests-limit: 0

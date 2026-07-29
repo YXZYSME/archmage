@@ -1,0 +1,43 @@
+# YXZYS | saeng-il ai [integration] — © YXZYS @ saengil.ai
+
+site_name: ARCHMAGE
+site_description: Deterministic pre-execution control for coding-agent actions.
+site_url: https://yxzysme.github.io/archmage/
+repo_url: https://github.com/YXZYSME/archmage
+repo_name: YXZYSME/archmage
+
+theme:
+  name: material
+  features:
+    - content.code.copy
+    - navigation.sections
+    - navigation.top
+    - search.highlight
+
+nav:
+  - Home: index.md
+  - Quickstart: quickstart.md
+  - Concepts: concepts.md
+  - Policy model: policy-model.md
+  - Architecture: architecture.md
+  - Adapters: adapters.md
+  - Custom evaluators: custom-evaluators.md
+  - Benchmarks: benchmarks.md
+  - Security claims: security-claims.md
+  - Threat model: threat-model.md
+  - Limitations: limitations.md
+  - Supply-chain verification: supply-chain.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - tables
+  - pymdownx.details
+  - pymdownx.highlight
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+strict: true
