@@ -1,0 +1,107 @@
+# YXZYS | saeng-il ai [integration] — © YXZYS @ saengil.ai
+
+name: Contribution proposal
+description: Request scoped approval before beginning an ARCHMAGE contribution.
+title: "proposal: "
+labels:
+  - proposal
+  - "status:awaiting-archmage-review"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ARCHMAGE contribution access is approval-only. Do not open a pull
+        request until a maintainer assigns `status:approved-to-build`, an
+        ARCHMAGE rank, and a 30-day approval window.
+
+        Do not report suspected vulnerabilities here. Use GitHub private
+        vulnerability reporting instead.
+
+  - type: dropdown
+    id: contribution_area
+    attributes:
+      label: Contribution area
+      options:
+        - Bug fix
+        - Tests
+        - Documentation
+        - Adapter
+        - Performance
+        - Research
+        - Language integration
+        - Security hardening
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or opportunity
+      description: Describe the observed problem, affected users, and current evidence.
+      placeholder: |
+        Observed behavior:
+        Expected behavior:
+        Who benefits:
+        Existing evidence:
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: Define the smallest useful scope and the public contract it preserves or changes.
+      placeholder: |
+        Proposed interface:
+        In scope:
+        Out of scope:
+        Expected failure behavior:
+    validations:
+      required: true
+
+  - type: textarea
+    id: design_alignment
+    attributes:
+      label: ARCHMAGE design alignment
+      description: Explain why this belongs in ARCHMAGE and which laws or invariants it preserves.
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence_plan
+    attributes:
+      label: Evidence plan
+      description: Identify regression tests, coverage, benchmarks, security analysis, docs, and compatibility evidence.
+      placeholder: |
+        Regression tests:
+        Coverage:
+        Benchmarks:
+        Security impact:
+        Documentation:
+        Backward compatibility:
+    validations:
+      required: true
+
+  - type: textarea
+    id: prompt_plan
+    attributes:
+      label: Agentic-tool prompt plan
+      description: State whether agentic tools will be used and how prompts will be sanitized and disclosed.
+      placeholder: "No agentic tools planned, or describe the disclosure approach."
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: identity
+    attributes:
+      label: Contributor declaration
+      options:
+        - label: I can verify the identity associated with this GitHub account.
+          required: true
+        - label: I will work only within the maintainer-approved scope.
+          required: true
+        - label: I will sign off every commit under the Developer Certificate of Origin.
+          required: true
+        - label: I understand that approval does not guarantee review, acceptance, or merge.
+          required: true

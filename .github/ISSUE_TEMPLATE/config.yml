@@ -1,0 +1,10 @@
+# YXZYS | saeng-il ai [integration] — © YXZYS @ saengil.ai
+
+blank_issues_enabled: false
+contact_links:
+  - name: Private security report
+    url: https://github.com/YXZYSME/archmage/security/advisories/new
+    about: Report suspected vulnerabilities without public disclosure.
+  - name: Contribution policy
+    url: https://github.com/YXZYSME/archmage/blob/main/CONTRIBUTING.md
+    about: Read the approval, evidence, prompt-disclosure, and DCO requirements.
