@@ -1,0 +1,118 @@
+# YXZYS | saeng-il ai [integration] — © YXZYS @ saengil.ai
+
+name: Contribution Policy
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: contribution-policy-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  contract:
+    name: Contribution contract
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out trusted policy
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: policy
+          persist-credentials: false
+
+      - name: Check out bootstrap policy
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          path: candidate
+          persist-credentials: false
+
+      - name: Validate approval and evidence
+        run: |
+          policy_root=policy
+          if [[ ! -f "$policy_root/scripts/check_contribution_contract.py" ]]; then
+            policy_root=candidate
+          fi
+          python "$policy_root/scripts/check_contribution_contract.py" "$GITHUB_EVENT_PATH"
+
+  dco:
+    name: DCO sign-off
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out trusted policy
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: policy
+          persist-credentials: false
+
+      - name: Check out contribution history
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          path: candidate
+          persist-credentials: false
+
+      - name: Verify commit sign-offs
+        run: |
+          policy_root=policy
+          if [[ ! -f "$policy_root/scripts/check_dco.py" ]]; then
+            policy_root=candidate
+          fi
+          python "$policy_root/scripts/check_dco.py" \
+            --repository candidate \
+            --base "${{ github.event.pull_request.base.sha }}" \
+            --head "${{ github.event.pull_request.head.sha }}"
+
+  coverage:
+    name: Coverage regression
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out base
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: base
+          persist-credentials: false
+
+      - name: Check out contribution
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          path: candidate
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Measure base coverage
+        run: |
+          python -m venv "${{ runner.temp }}/base-venv"
+          "${{ runner.temp }}/base-venv/bin/python" -m pip install --disable-pip-version-check --editable "base[dev]"
+          cd base
+          "${{ runner.temp }}/base-venv/bin/python" -m pytest --cov=archmage --cov-report=json:coverage.json
+
+      - name: Measure pull-request coverage
+        run: |
+          python -m venv "${{ runner.temp }}/candidate-venv"
+          "${{ runner.temp }}/candidate-venv/bin/python" -m pip install --disable-pip-version-check --editable "candidate[dev]"
+          cd candidate
+          "${{ runner.temp }}/candidate-venv/bin/python" -m pytest --cov=archmage --cov-report=json:coverage.json
+
+      - name: Reject coverage regressions
+        run: |
+          policy_root=base
+          if [[ ! -f "$policy_root/scripts/check_coverage_regression.py" ]]; then
+            policy_root=candidate
+          fi
+          python "$policy_root/scripts/check_coverage_regression.py" \
+            base/coverage.json \
+            candidate/coverage.json

@@ -136,6 +136,7 @@ tools. Report suspected vulnerabilities through the private route documented in
 
 ## Documentation
 
+- [Published documentation](https://archmage.saengil.ai/)
 - [Quickstart](docs/quickstart.md)
 - [Core concepts](docs/concepts.md)
 - [Policy model](docs/policy-model.md)
@@ -150,8 +151,11 @@ tools. Report suspected vulnerabilities through the private route documented in
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). Security-sensitive changes require tests
-that demonstrate both the blocked path and the expected compliant path.
+Contribution access is approval-only. Start with a proposal and read
+[CONTRIBUTING.md](CONTRIBUTING.md) and
+[ARCHMAGE_RANKS.md](ARCHMAGE_RANKS.md). Security-sensitive changes require
+private disclosure and tests that demonstrate both the blocked path and the
+expected compliant path.
 
 ## License
 

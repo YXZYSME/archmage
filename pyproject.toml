@@ -53,7 +53,7 @@ docs = [
 
 [project.urls]
 Homepage = "https://github.com/YXZYSME/archmage"
-Documentation = "https://yxzysme.github.io/archmage/"
+Documentation = "https://archmage.saengil.ai/"
 Issues = "https://github.com/YXZYSME/archmage/issues"
 Repository = "https://github.com/YXZYSME/archmage"
 
