@@ -22,7 +22,7 @@ later package-publication gate.
 | Security scan and threat model | Green locally | The standard scan reviewed 76/76 files; its one medium and three low findings are remediated with regression tests. No high or critical findings were reported. |
 | Docs | Green on candidate | MkDocs content, strict hosted build gate, and a SHA-pinned, public-visibility-gated Pages workflow exist. |
 | Benchmarks | Green on clean root | Hosted clean-root runners emit revision-bound JSON plus one unified scorecard with case versions and environment details. |
-| Public repository controls | Green | Dependabot security updates, secret scanning, push protection, private vulnerability reporting, HTTPS Pages, and `main` protection are enabled. |
+| Public repository controls | Provisioning | Dependabot security updates, secret scanning, push protection, private vulnerability reporting, and strict `main` protection are enabled. The verified Pages custom domain is live while GitHub provisions its TLS certificate. |
 
 ## Public repository launch gates
 
@@ -36,6 +36,7 @@ later package-publication gate.
 - [x] `SECURITY.md` and the threat model are approved and committed.
 - [x] The hosted benchmark scorecard identifies its exact revision, case versions, and environment.
 - [x] GitHub Pages and repository security controls are enabled.
+- [ ] GitHub has issued the custom-domain certificate and HTTPS enforcement is enabled.
 - [x] PyPI trusted publishing is configured without a long-lived upload token.
 - [x] The maintainer records final go/no-go approval in the private launch-gate issue.
 
@@ -61,8 +62,15 @@ pre-sanitization remote is preserved in
 
 ## External settings
 
-- GitHub Pages source: GitHub Actions.
-- `main` protection: require CI, restrict force pushes and deletion, require review.
+- GitHub Pages source: GitHub Actions. Public domain:
+  `https://archmage.saengil.ai/`. Internal environment: `github-pages`.
+- `main` protection: require pull requests and 12 strict status checks, enforce
+  rules for administrators, require linear history and resolved conversations,
+  and block force pushes and deletion. The review count is zero because GitHub
+  does not permit self-approval; `@YXZYSME` is the only repository collaborator
+  and final merger.
+- Contribution governance: issue-first, scoped 30-day approval, DCO sign-off,
+  sanitized prompt evidence, and one B/A/S/SS rank label per pull request.
 - `pypi` environment: created with a `v*` tag policy.
 - PyPI pending trusted publisher: project `archmage-ai`, owner `YXZYSME`,
   repository `archmage`, workflow `release.yml`, environment `pypi`. PyPI

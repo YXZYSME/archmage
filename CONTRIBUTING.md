@@ -26,9 +26,11 @@ Approval applies to one named contributor, one issue, and its accepted scope. It
 expires 30 calendar days after approval unless a maintainer renews it. Approval
 does not guarantee review, acceptance, or merge.
 
-An unapproved pull request may remain open while maintainers evaluate it. Only a
-maintainer can grant a rank, approve the proposal, or merge the result. See
-[ARCHMAGE_RANKS.md](ARCHMAGE_RANKS.md) for the public rank model.
+An unapproved pull request remains open until a maintainer completes triage; the
+automated policy check does not comment on or close it. After review, a
+maintainer may approve the scope, request changes, decline it silently, or close
+it. Only a maintainer can grant a rank, approve the proposal, or merge the
+result. See [ARCHMAGE_RANKS.md](ARCHMAGE_RANKS.md) for the public rank model.
 
 ## Development setup
 
