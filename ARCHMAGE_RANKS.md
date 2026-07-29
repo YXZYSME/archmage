@@ -11,6 +11,14 @@ Ranks are not employment, organizational membership, ownership, or a permanent
 right to contribute. Maintainers may change or revoke a rank when evidence,
 conduct, security, or project alignment requires it.
 
+## Repository permissions
+
+B-Rank, A-Rank, and S-Rank Archmages contribute from forks and do not receive
+repository write or merge access solely because of rank. SS-Rank Archmage is the
+only rank eligible for maintainer access. The initial repository collaborator
+and final merger is `@YXZYSME`; any later maintainer is selected explicitly by
+the existing maintainer.
+
 ## B-Rank Archmage
 
 An approved contributor for a bounded issue.

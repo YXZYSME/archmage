@@ -1,25 +1,26 @@
 # YXZYS | saeng-il ai [integration] — © YXZYS @ saengil.ai
 
-name: Pre-public release gate
-description: Track the hard gates required before repository visibility changes.
-title: "release: complete pre-public launch gate"
+name: Maintainer release gate
+description: Track the evidence required before an ARCHMAGE package release.
+title: "release: complete maintainer release gate"
 labels:
   - release
 body:
   - type: markdown
     attributes:
       value: |
-        This issue is the authoritative launch gate. Do not make the repository
-        public while any required checkbox is open.
+        This issue is the maintainer's authoritative package-release gate.
+        Community work should use the contribution proposal instead. Do not
+        publish a release while any required checkbox is open.
 
   - type: checkboxes
     id: exposure
     attributes:
-      label: Exposure freeze
+      label: Release authority
       options:
-        - label: "Public visibility remains disabled until every required gate is green."
+        - label: "The release issue has maintainer approval and an SS-Rank Archmage owner."
           required: true
-        - label: "The candidate is built from the reviewed `public-release` branch."
+        - label: "The candidate is built from protected `main` after all required checks pass."
           required: true
 
   - type: checkboxes
