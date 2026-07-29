@@ -32,6 +32,26 @@ maintainer may approve the scope, request changes, decline it silently, or close
 it. Only a maintainer can grant a rank, approve the proposal, or merge the
 result. See [ARCHMAGE_RANKS.md](ARCHMAGE_RANKS.md) for the public rank model.
 
+## Maintainer maintenance path
+
+An SS-Rank Archmage may use the `Maintainer maintenance` issue form for a
+bounded typo or wording correction, metadata correction, reviewed pinned-action
+update, mechanical formatting or generated-file refresh, or similarly
+non-behavioral repository housekeeping.
+
+This is an abbreviated intake form, not an approval or evidence bypass. The
+issue must still receive `status:approved-to-build`, the pull request must carry
+the `SS-Rank Archmage` label, every commit must have DCO sign-off, and the full
+pull-request contract and required checks still apply.
+
+The maintenance path cannot be used for runtime behavior, public interfaces or
+compatibility, security boundaries, repository permissions, release or
+publishing behavior, workflow permissions, dependency resolution, package
+identity, domain routing, licensing, governance, or work whose impact is
+uncertain. If implementation discovers broader scope, stop the work and open a
+full contribution proposal. B-Rank, A-Rank, and S-Rank contributors always
+begin with the full contribution proposal.
+
 ## Development setup
 
 ```bash

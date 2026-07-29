@@ -1,0 +1,119 @@
+# YXZYS | saeng-il ai [integration] — © YXZYS @ saengil.ai
+
+name: Maintainer maintenance
+description: Record bounded, low-risk work initiated by an SS-Rank Archmage.
+title: "maintenance: "
+labels:
+  - maintenance
+  - "status:awaiting-archmage-review"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This abbreviated path is only for an SS-Rank Archmage handling a typo,
+        metadata correction, reviewed pinned-action update, mechanical
+        formatting, or similarly non-behavioral repository housekeeping.
+
+        It does not bypass approval, the pull-request contract, DCO sign-off,
+        or required checks. Use the full contribution proposal for runtime,
+        interface, security-boundary, permission, dependency, release, domain,
+        license, governance, or otherwise uncertain work.
+
+  - type: dropdown
+    id: maintenance_class
+    attributes:
+      label: Maintenance class
+      options:
+        - Typo or wording correction
+        - Metadata correction
+        - Reviewed pinned GitHub Action update
+        - Mechanical formatting or generated-file refresh
+        - Non-behavioral repository housekeeping
+    validations:
+      required: true
+
+  - type: input
+    id: maintainer
+    attributes:
+      label: SS-Rank maintainer
+      description: Identify the SS-Rank Archmage responsible for this change.
+      placeholder: "@maintainer"
+    validations:
+      required: true
+
+  - type: textarea
+    id: exact_change
+    attributes:
+      label: Exact change
+      description: Name the files or external settings and describe the smallest complete correction.
+      placeholder: |
+        Files or settings:
+        Current value:
+        Corrected value:
+    validations:
+      required: true
+
+  - type: textarea
+    id: low_risk_basis
+    attributes:
+      label: Why this is low risk
+      description: Explain why the change cannot affect excluded behavior or authority.
+      placeholder: |
+        Runtime behavior:
+        Public API or compatibility:
+        Security boundary, workflow permissions, or repository permissions:
+        Dependency, release, publishing, package identity, domain, license, or governance:
+    validations:
+      required: true
+
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validation plan
+      description: List the focused check and the normal CI evidence that will validate the correction.
+      placeholder: |
+        Focused validation:
+        Required CI:
+        Documentation or metadata check:
+    validations:
+      required: true
+
+  - type: textarea
+    id: pinned_action_evidence
+    attributes:
+      label: Pinned-action evidence
+      description: For an action update, provide old/new full SHAs and upstream review; otherwise state why this is N/A.
+      placeholder: |
+        Old full SHA:
+        New full SHA:
+        Upstream release or commit:
+        Permission, trigger, input, and action-identity comparison:
+    validations:
+      required: true
+
+  - type: textarea
+    id: prompt_disclosure
+    attributes:
+      label: Prompt disclosure
+      description: State that no agentic tools are planned, or provide the sanitized starter prompt and disclosure plan.
+      placeholder: "No agentic tools planned, or sanitized prompt and disclosure approach."
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: eligibility
+    attributes:
+      label: Maintenance eligibility
+      options:
+        - label: I am the SS-Rank Archmage identified above and I am initiating this maintenance.
+          required: true
+        - label: This change is limited to the selected maintenance class and has no runtime behavior or public API impact.
+          required: true
+        - label: This change does not alter a security boundary, workflow or repository permissions, dependency resolution, release or publishing behavior, package identity, domain routing, license, or governance.
+          required: true
+        - label: If this updates a pinned action, its identity, permissions, triggers, and inputs remain within the reviewed scope.
+          required: true
+        - label: I will stop and open a full contribution proposal if implementation reveals broader or uncertain impact.
+          required: true
+        - label: The resulting pull request will still satisfy DCO, prompt disclosure, evidence, and every required check.
+          required: true

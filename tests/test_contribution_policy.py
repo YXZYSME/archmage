@@ -4,6 +4,7 @@
 # ──────────────────────────────────────────────────────
 from datetime import date
 from decimal import Decimal
+from pathlib import Path
 
 from scripts.check_contribution_contract import validate_contract
 from scripts.check_coverage_regression import coverage_decreased
@@ -78,3 +79,32 @@ def test_dco_signoff_must_match_commit_identity() -> None:
 def test_coverage_regression_is_detected() -> None:
     assert coverage_decreased(Decimal("91.20"), Decimal("91.19"))
     assert not coverage_decreased(Decimal("91.20"), Decimal("91.20"))
+
+
+def test_maintainer_maintenance_form_is_strictly_bounded() -> None:
+    template = Path(".github/ISSUE_TEMPLATE/maintainer-maintenance.yml").read_text(encoding="utf-8")
+    labels = template.split("labels:", 1)[1].split("body:", 1)[0]
+
+    assert 'title: "maintenance: "' in template
+    assert "maintenance" in labels
+    assert "status:awaiting-archmage-review" in labels
+    assert "status:approved-to-build" not in labels
+    assert "SS-Rank Archmage" not in labels
+
+    required_boundaries = (
+        "runtime behavior",
+        "public API",
+        "security boundary",
+        "workflow or repository permissions",
+        "repository permissions",
+        "dependency resolution",
+        "release or publishing",
+        "package identity",
+        "domain routing",
+        "license, or governance",
+        "full contribution proposal",
+        "DCO",
+        "every required check",
+    )
+    for boundary in required_boundaries:
+        assert boundary in template
