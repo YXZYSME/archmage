@@ -167,16 +167,32 @@ jobs:
           python -m pip install
           --disable-pip-version-check
           "build>=1.2,<2"
+          "jsonschema>=4.23,<5"
+          "skills-ref>=0.1,<1"
+          "strictyaml>=1.7,<2"
           "twine>=6,<8"
 
-      - name: Build distributions
+      - name: Build Python distributions
         run: python -m build
 
-      - name: Validate metadata
-        run: python -m twine check dist/*
+      - name: Build Agent Plugin
+        run: >-
+          python scripts/build_agent_plugin.py
+          --output-directory dist
 
-      - name: Validate distribution contents
-        run: python scripts/verify_distribution.py dist/*
+      - name: Validate Python metadata
+        run: python -m twine check dist/*.whl dist/*.tar.gz
+
+      - name: Validate Python distribution contents
+        run: >-
+          python scripts/verify_distribution.py
+          dist/*.whl
+          dist/*.tar.gz
+
+      - name: Validate Agent Plugin contents
+        run: >-
+          python scripts/verify_agent_plugin.py
+          dist/archmage-agent-plugin-*.zip
 
       - name: Smoke-test the wheel
         run: |
@@ -189,5 +205,14 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: python-distributions
-          path: dist/
+          path: |
+            dist/*.whl
+            dist/*.tar.gz
+          if-no-files-found: error
+
+      - name: Upload Agent Plugin
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: agent-plugin
+          path: dist/archmage-agent-plugin-*.zip
           if-no-files-found: error

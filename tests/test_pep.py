@@ -157,6 +157,19 @@ class TestPolicyEnforcementPoint(unittest.TestCase):
         res = pep.intercept(self.action, self.context, acknowledged_obligations=["must_review"])
         self.assertEqual(res, VerdictDecision.ALLOW_WITH_OBLIGATIONS)
 
+    def test_evaluate_and_enforce_returns_the_authoritative_verdict(self):
+        pdp = PolicyDecisionPoint([ObligationMockEvaluator()])
+        pep = PolicyEnforcementPoint(pdp)
+
+        verdict = pep.evaluate_and_enforce(
+            self.action,
+            self.context,
+            acknowledged_obligations=["must_review"],
+        )
+
+        self.assertEqual(verdict.decision, VerdictDecision.ALLOW_WITH_OBLIGATIONS)
+        self.assertEqual(verdict.policy_id, "POL-TEST-OBLIGATION")
+
     def test_explicit_approval_rejects_raw_obligation_name(self):
         pdp = PolicyDecisionPoint([ExplicitApprovalMockEvaluator()])
         pep = PolicyEnforcementPoint(

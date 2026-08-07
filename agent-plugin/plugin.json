@@ -1,0 +1,27 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "archmage",
+  "version": "2.0.0",
+  "description": "Deterministic pre-execution policy enforcement for coding-agent actions.",
+  "author": {
+    "name": "YXZYS",
+    "email": "yxzys@proton.me",
+    "url": "https://saengil.ai"
+  },
+  "homepage": "https://archmage.saengil.ai/",
+  "repository": "https://github.com/YXZYSME/archmage",
+  "license": "Apache-2.0",
+  "keywords": [
+    "agent-governance",
+    "policy-enforcement",
+    "mcp",
+    "security"
+  ],
+  "extensions": {
+    "ai.saengil.archmage": {
+      "manifest": "ai.saengil.archmage/extension.json",
+      "enforcement_mode": "ENFORCE",
+      "fail_closed": true
+    }
+  }
+}

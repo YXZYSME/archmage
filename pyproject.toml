@@ -38,13 +38,20 @@ classifiers = [
 ]
 dependencies = []
 
+[project.scripts]
+archmage-mcp = "archmage.mcp:main"
+
+
 [project.optional-dependencies]
 dev = [
     "build>=1.2,<2",
+    "jsonschema>=4.23,<5",
     "mypy>=1.13,<2",
     "pytest>=8,<10",
     "pytest-cov>=5,<8",
     "ruff>=0.8,<1",
+    "skills-ref>=0.1,<1; python_version >= '3.11'",
+    "strictyaml>=1.7,<2",
     "twine>=6,<8",
 ]
 docs = [

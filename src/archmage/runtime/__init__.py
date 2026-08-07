@@ -1,5 +1,6 @@
 """ARCHMAGE runtime package."""
 
+from .audit import JsonlAuditLogger
 from .defaults import create_default_policy_decision_point
 from .domain import (
     ActionDigest,
@@ -11,6 +12,7 @@ from .domain import (
     EvidenceRecord,
     EvidenceReference,
     ExceptionRecord,
+    ExecutionStatus,
     HandoffContract,
     Obligation,
     Policy,
@@ -19,6 +21,7 @@ from .domain import (
     PolicyFinding,
     PolicyVerdict,
     ProposedEffect,
+    ReconciliationRecord,
     RepairInstruction,
     TaskEnvelope,
     VerdictDecision,
@@ -56,9 +59,11 @@ __all__ = [
     "Obligation",
     "EvidenceReference",
     "EvidenceRecord",
+    "ExecutionStatus",
     "ExceptionRecord",
     "ApprovalRecord",
     "AuditEvent",
+    "ReconciliationRecord",
     "PolicyBundleVersion",
     "HandoffContract",
     "TaskEnvelope",
@@ -69,6 +74,7 @@ __all__ = [
     "PolicyEnforcementPoint",
     "PEP",
     "create_default_policy_decision_point",
+    "JsonlAuditLogger",
     "BaseEvaluator",
     "ScopeEnforcementEvaluator",
     "ProtectedPolicyMutationEvaluator",
