@@ -15,6 +15,12 @@ class VerdictDecision(str, Enum):
     ESCALATE = "ESCALATE"
 
 
+class ExecutionStatus(str, Enum):
+    SUCCESS = "SUCCESS"
+    FAILURE = "FAILURE"
+    BLOCKED = "BLOCKED"
+
+
 @dataclass
 class ActorIdentity:
     actor_id: str
@@ -183,6 +189,16 @@ class AuditEvent:
     action_digest: str
     verdicts: List[PolicyVerdict]
     final_decision: VerdictDecision
+    timestamp: str
+
+
+@dataclass
+class ReconciliationRecord:
+    event_id: str
+    task_id: str
+    action_digest: str
+    status: ExecutionStatus
+    result_summary: str
     timestamp: str
 
 

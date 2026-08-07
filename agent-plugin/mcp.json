@@ -1,0 +1,21 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "archmage": {
+      "type": "stdio",
+      "command": "python3",
+      "args": [
+        "-m",
+        "archmage.mcp",
+        "--audit-log",
+        "${PLUGIN_DATA}/audit.jsonl"
+      ],
+      "env": {
+        "PYTHONPATH": "${PLUGIN_ROOT}/python",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONNOUSERSITE": "1"
+      },
+      "cwd": "${PLUGIN_ROOT}"
+    }
+  }
+}

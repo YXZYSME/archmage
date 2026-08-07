@@ -20,6 +20,7 @@ nav:
   - Concepts: concepts.md
   - Policy model: policy-model.md
   - Architecture: architecture.md
+  - Agent Plugin: agent-plugin.md
   - Adapters: adapters.md
   - Custom evaluators: custom-evaluators.md
   - Benchmarks: benchmarks.md

@@ -151,6 +151,22 @@ class PolicyEnforcementPoint:
         acknowledged_obligations: Optional[List[str]] = None,
         approval_records: Optional[Sequence[ApprovalRecord]] = None,
     ) -> VerdictDecision:
+        return self.evaluate_and_enforce(
+            action,
+            context,
+            acknowledged_obligations=acknowledged_obligations,
+            approval_records=approval_records,
+        ).decision
+
+    def evaluate_and_enforce(
+        self,
+        action: ActionProposal,
+        context: PolicyContext,
+        acknowledged_obligations: Optional[List[str]] = None,
+        approval_records: Optional[Sequence[ApprovalRecord]] = None,
+    ) -> PolicyVerdict:
+        """Return the verdict only after audit and enforcement have completed."""
+
         effective_context = replace(
             context,
             audit_logger_configured=self.audit_logger is not None,
@@ -170,7 +186,7 @@ class PolicyEnforcementPoint:
                 approval_records=approval_records,
             )
 
-        return verdict.decision
+        return verdict
 
     def record_audit(self, action: ActionProposal, verdict: PolicyVerdict) -> None:
         event = AuditEvent(

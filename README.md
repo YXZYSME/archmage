@@ -92,6 +92,20 @@ Release wheels and source distributions are built in GitHub Actions, accompanied
 by SHA-256 checksums, an SPDX SBOM, and GitHub artifact attestations. Verification
 instructions are in the [supply-chain guide](docs/supply-chain.md).
 
+## Agent Plugin
+
+ARCHMAGE also ships a separate, self-contained Agent Plugins 1.0.0 ZIP. The
+plugin is an interoperability and distribution adapter: its Agent Skill tells a
+compatible host when to invoke the bundled MCP tools, while those tools route
+every decision through the same Python `PolicyEnforcementPoint` used by native
+integrations.
+
+The ZIP is deliberately separate from the wheel and source distribution. It is
+validated against vendored Agent Plugins schemas, smoke-tested directly from an
+extracted archive, and never submitted to PyPI or Python metadata validation.
+See the [Agent Plugin guide](docs/agent-plugin.md) for the trust boundary and
+installation sequence.
+
 ## What is included
 
 - Eleven deterministic core evaluators with fail-closed aggregation.
@@ -103,6 +117,7 @@ instructions are in the [supply-chain guide](docs/supply-chain.md).
 - Contract evaluators for interface depth and contract-first Python changes.
 - Reproducible gold-case, repair-loop, policy-drift, and latency benchmarks.
 - An Apache-2.0 licensed skill and doctrine bundle.
+- A portable Agent Plugins 1.0.0 edge adapter with durable JSONL audit records.
 
 ## Validated release-candidate benchmarks
 
@@ -141,6 +156,7 @@ tools. Report suspected vulnerabilities through the private route documented in
 - [Core concepts](docs/concepts.md)
 - [Policy model](docs/policy-model.md)
 - [Architecture](docs/architecture.md)
+- [Agent Plugin](docs/agent-plugin.md)
 - [Adapters](docs/adapters.md)
 - [Writing custom evaluators](docs/custom-evaluators.md)
 - [Benchmarks](docs/benchmarks.md)

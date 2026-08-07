@@ -1,0 +1,14 @@
+# ──────────────────────────────────────────────────────
+# YXZYS | saeng-il ai [integration]
+# © YXZYS @ saengil.ai — All rights reserved.
+# ──────────────────────────────────────────────────────
+
+include LICENSE
+include README.md
+include SKILL.md
+include manifest.yaml
+recursive-include agent-plugin *.json *.md
+recursive-include schemas *.json *.md
+recursive-include scripts *.py
+recursive-include skills *.md
+recursive-include tests *.py
