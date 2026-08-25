@@ -1,0 +1,13 @@
+{
+  "extension_id": "ai.saengil.archmage",
+  "version": "1.0.0",
+  "name": "ARCHMAGE enforcement guidance",
+  "description": "Client guidance for fail-closed pre-execution evaluation and result reconciliation.",
+  "interception": {
+    "fail_closed": true,
+    "default_mode": "ENFORCE",
+    "evaluate_before_side_effect": "evaluate_action",
+    "reconcile_after_side_effect": "reconcile_result"
+  },
+  "policy_manifest": "manifest.yaml"
+}

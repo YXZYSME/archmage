@@ -16,6 +16,10 @@ flowchart LR
     H -->|OBLIGATIONS| J["Verify obligations"]
     H -->|REPAIR| K["Return repair contract"]
     H -->|DENY / ESCALATE| L["Block dispatch"]
+    M["Agent Plugin Skill"] --> N["MCP edge adapter"]
+    N --> C
+    G --> N
+    N --> M
 ```
 
 ## Trust boundaries
@@ -35,8 +39,14 @@ tool around the PEP has bypassed ARCHMAGE.
 - `archmage.runtime` owns domain models, aggregation, and enforcement behavior.
 - `archmage.evaluators` exposes evaluator interfaces and contract evaluators.
 - `archmage.adapters` translates native tool calls into runtime contracts.
+- `archmage.mcp_server` translates portable MCP calls into the same runtime
+  contracts; it does not own policy logic.
 - Adapters depend on runtime contracts; runtime policy code does not depend on
   host adapters.
+
+The Agent Plugin is therefore an edge and distribution format, not ARCHMAGE's
+internal component model. Native adapters and the MCP adapter converge on the
+same PEP/PDP boundary.
 
 ## Path containment
 

@@ -16,7 +16,18 @@ _REQUIRED_WHEEL_MEMBERS = {
     "archmage/__init__.py",
     "archmage/adapters/__init__.py",
     "archmage/evaluators/__init__.py",
+    "archmage/mcp.py",
+    "archmage/mcp_server.py",
     "archmage/runtime/__init__.py",
+    "archmage/runtime/audit.py",
+}
+_REQUIRED_SDIST_MEMBERS = {
+    Path("agent-plugin/mcp.json"),
+    Path("agent-plugin/plugin.json"),
+    Path("schemas/agent-plugins/1.0.0/mcp.schema.json"),
+    Path("schemas/agent-plugins/1.0.0/plugin.schema.json"),
+    Path("scripts/build_agent_plugin.py"),
+    Path("scripts/verify_agent_plugin.py"),
 }
 _FORBIDDEN_WHEEL_ROOTS = {"adapters", "doctrine", "runtime", "skills", "tests"}
 _FORBIDDEN_MEMBER_PARTS = {"__pycache__", ".pytest_cache"}
@@ -51,6 +62,14 @@ def validate_sdist(path: Path) -> list[str]:
     violations: list[str] = []
     with tarfile.open(path, "r:gz") as archive:
         members = [Path(member.name) for member in archive.getmembers()]
+
+    relative_members = {Path(*member.parts[1:]) for member in members if len(member.parts) > 1}
+    missing = sorted(_REQUIRED_SDIST_MEMBERS - relative_members)
+    if missing:
+        violations.append(
+            f"{path.name}: missing Agent Plugin sources: "
+            + ", ".join(member.as_posix() for member in missing)
+        )
 
     for member in members:
         if ".git" in member.parts:

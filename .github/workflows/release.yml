@@ -38,15 +38,28 @@ jobs:
           --disable-pip-version-check
           .
           "build>=1.2,<2"
+          "jsonschema>=4.23,<5"
+          "skills-ref>=0.1,<1"
+          "strictyaml>=1.7,<2"
           "twine>=6,<8"
 
-      - name: Build distributions
+      - name: Build Python distributions
         run: python -m build --outdir release-artifacts/packages
 
-      - name: Validate distributions
+      - name: Build Agent Plugin
+        run: >-
+          python scripts/build_agent_plugin.py
+          --output-directory release-artifacts/plugins
+
+      - name: Validate Python distributions
         run: |
           python -m twine check release-artifacts/packages/*
           python scripts/verify_distribution.py release-artifacts/packages/*
+
+      - name: Validate Agent Plugin
+        run: >-
+          python scripts/verify_agent_plugin.py
+          release-artifacts/plugins/archmage-agent-plugin-*.zip
 
       - name: Run gold cases
         run: >-
@@ -84,12 +97,23 @@ jobs:
           upload-artifact: false
           upload-release-assets: false
 
+      - name: Generate Agent Plugin SPDX SBOM
+        uses: anchore/sbom-action@e22c389904149dbc22b58101806040fa8d37a610 # v0.24.0
+        with:
+          path: release-artifacts/plugins
+          format: spdx-json
+          output-file: release-artifacts/archmage-agent-plugin.spdx.json
+          upload-artifact: false
+          upload-release-assets: false
+
       - name: Generate checksums
         run: >-
           sha256sum
           release-artifacts/packages/*
+          release-artifacts/plugins/*
           release-artifacts/benchmarks/*
           release-artifacts/archmage-ai.spdx.json
+          release-artifacts/archmage-agent-plugin.spdx.json
           > release-artifacts/SHA256SUMS
 
       - name: Attest build provenance
@@ -98,6 +122,7 @@ jobs:
           subject-path: |
             release-artifacts/packages/*.whl
             release-artifacts/packages/*.tar.gz
+            release-artifacts/plugins/*.zip
 
       - name: Attest SBOM
         uses: actions/attest@f7c74d28b9d84cb8768d0b8ca14a4bac6ef463e6 # v4.2.0
@@ -106,6 +131,12 @@ jobs:
             release-artifacts/packages/*.whl
             release-artifacts/packages/*.tar.gz
           sbom-path: release-artifacts/archmage-ai.spdx.json
+
+      - name: Attest Agent Plugin SBOM
+        uses: actions/attest@f7c74d28b9d84cb8768d0b8ca14a4bac6ef463e6 # v4.2.0
+        with:
+          subject-path: release-artifacts/plugins/*.zip
+          sbom-path: release-artifacts/archmage-agent-plugin.spdx.json
 
       - name: Attest benchmark artifacts
         uses: actions/attest@f7c74d28b9d84cb8768d0b8ca14a4bac6ef463e6 # v4.2.0
@@ -125,9 +156,11 @@ jobs:
         run: >-
           gh release upload "${GITHUB_REF_NAME}"
           release-artifacts/packages/*
+          release-artifacts/plugins/*
           release-artifacts/benchmarks/*
           release-artifacts/SHA256SUMS
           release-artifacts/archmage-ai.spdx.json
+          release-artifacts/archmage-agent-plugin.spdx.json
 
   publish:
     name: Publish to PyPI
