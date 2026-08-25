@@ -8,6 +8,8 @@ on Keep a Changelog, and the project uses Semantic Versioning.
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-08-25
+
 ### Security
 
 - Require explicit adapter execution context and immutable revision labels.
@@ -26,6 +28,10 @@ on Keep a Changelog, and the project uses Semantic Versioning.
 
 ### Added
 
+- A self-contained Agent Plugins 1.0.0 ZIP with an Agent Skill, four MCP tools,
+  the ARCHMAGE runtime, schema validation, and archive verification.
+- Authoritative MCP enforcement through `PolicyEnforcementPoint`, with durable
+  JSONL decision and execution-reconciliation records.
 - Reproducible gold-case, indirect-instruction, repair-loop, drift, and latency
   benchmark runners.
 - A provenance-bound benchmark scorecard that rejects mixed revisions and records
@@ -43,3 +49,4 @@ on Keep a Changelog, and the project uses Semantic Versioning.
   coding-agent actions.
 
 [Unreleased]: https://github.com/YXZYSME/archmage/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/YXZYSME/archmage/releases/tag/v2.0.0
