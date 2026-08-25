@@ -151,7 +151,10 @@ tools. Report suspected vulnerabilities through the private route documented in
 
 ## Documentation
 
-- [Published documentation](https://archmage.saengil.ai/)
+- [Documentation source](docs/index.md)
+- [Site implementation handoff](docs/specs/archmage-site/README.md)
+- Custom domain: `archmage.saengil.ai` (launch pending certificate and HTTPS
+  acceptance)
 - [Quickstart](docs/quickstart.md)
 - [Core concepts](docs/concepts.md)
 - [Policy model](docs/policy-model.md)
