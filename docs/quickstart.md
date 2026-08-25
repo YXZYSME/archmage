@@ -5,16 +5,16 @@
 
 ## Install
 
-Before the first package release, install from a reviewed checkout:
-
-```bash
-python -m pip install .
-```
-
-After the first package release:
+Install the published package:
 
 ```bash
 python -m pip install archmage-ai
+```
+
+For development from a reviewed checkout:
+
+```bash
+python -m pip install --editable ".[dev]"
 ```
 
 The distribution name is `archmage-ai`; the Python import is `archmage`.

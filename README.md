@@ -15,9 +15,9 @@
   [![License](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
 </div>
 
-> Release status: the repository is public, while the first signed package release
-> is still being validated. Until it is published, install from a reviewed checkout
-> rather than expecting `archmage-ai` to exist on PyPI.
+> Current release: `v2.0.0`. Python distributions are published as
+> [`archmage-ai`](https://pypi.org/project/archmage-ai/); the portable Agent
+> Plugin is attached separately to the GitHub release.
 
 ARCHMAGE evaluates a proposed tool action before an adapter dispatches it. The
 runtime converts the proposal into a stable digest, runs deterministic policy
@@ -75,17 +75,17 @@ it. ARCHMAGE does not independently intercept arbitrary operating-system activit
 
 ## Install and verify
 
-From a reviewed checkout:
-
-```bash
-python -m pip install .
-python -m pytest
-```
-
-After the first package release:
+Install the signed package release:
 
 ```bash
 python -m pip install archmage-ai
+```
+
+For development from a reviewed checkout:
+
+```bash
+python -m pip install --editable ".[dev]"
+python -m pytest
 ```
 
 Release wheels and source distributions are built in GitHub Actions, accompanied

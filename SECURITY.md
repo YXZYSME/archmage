@@ -12,9 +12,8 @@ Security fixes are provided for the latest published minor release.
 | 2.0.x | Yes |
 | Earlier versions | No |
 
-Before the first published package release, development snapshots are not a
-supported security release. Reports against pre-release commits on `main` are
-still welcome.
+Development snapshots on `main` are not supported security releases, although
+reports against them are welcome.
 
 ## Report a Vulnerability
 
