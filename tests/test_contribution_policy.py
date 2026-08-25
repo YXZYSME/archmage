@@ -108,3 +108,20 @@ def test_maintainer_maintenance_form_is_strictly_bounded() -> None:
     )
     for boundary in required_boundaries:
         assert boundary in template
+
+
+def test_release_checksums_match_flat_github_assets() -> None:
+    workflow = Path(".github/workflows/release.yml").read_text(encoding="utf-8")
+    checksum_step = workflow.split("- name: Generate checksums", 1)[1].split(
+        "- name: Attest build provenance", 1
+    )[0]
+
+    assert "working-directory: release-artifacts" in checksum_step
+    assert "release-artifacts/packages/*" not in checksum_step
+    assert "release-artifacts/plugins/*" not in checksum_step
+    assert "release-artifacts/benchmarks/*" not in checksum_step
+    assert "packages/*" in checksum_step
+    assert "plugins/*" in checksum_step
+    assert "benchmarks/*" in checksum_step
+    assert "sed -E 's#  (packages|plugins|benchmarks)/#  #'" in checksum_step
+    assert "> SHA256SUMS" in checksum_step
