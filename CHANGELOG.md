@@ -19,10 +19,9 @@ on Keep a Changelog, and the project uses Semantic Versioning.
 
 ### Changed
 
-- Document custom-domain launch status accurately: a certificate for
-  `archmage.saengil.ai` may be present while HTTP→HTTPS redirect /
-  `https_enforced` evidence remains outstanding. Do not advertise the custom
-  host as canonical until those gates pass.
+- Accept custom-domain HTTPS launch for `archmage.saengil.ai`. YXZYS recorded
+  production GO on 2026-09-03; advertise `https://archmage.saengil.ai/` as the
+  canonical published documentation host.
 
 ## [2.0.0] - 2026-08-25
 
