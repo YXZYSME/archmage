@@ -22,7 +22,7 @@ package-publication gate.
 | Security scan and threat model | Green locally | The standard scan reviewed 76/76 files; its one medium and three low findings are remediated with regression tests. No high or critical findings were reported. |
 | Docs | Green on `v2.0.0` | MkDocs content, strict hosted build gate, and a SHA-pinned, public-visibility-gated Pages workflow pass. |
 | Benchmarks | Green on `v2.0.0` | Release artifacts identify commit `0ce6633f420aee75ee2a8140680d03b6cdfa95eb`, case versions, runtime, platform, and environment details. |
-| Public repository controls | Provisioning | Dependabot security updates, secret scanning, push protection, private vulnerability reporting, and strict `main` protection are enabled. The verified Pages custom domain is live while GitHub provisions its TLS certificate. |
+| Public repository controls | Provisioning | Dependabot security updates, secret scanning, push protection, private vulnerability reporting, and strict `main` protection are enabled. Pages deployment and DNS are healthy, but the custom hostname remains NO-GO until GitHub attaches a matching TLS certificate and HTTPS enforcement is enabled. See the [site handoff](docs/specs/archmage-site/README.md). |
 
 ## Public repository launch gates
 
@@ -64,7 +64,10 @@ pre-sanitization remote is preserved in
 ## External settings
 
 - GitHub Pages source: GitHub Actions. Public domain:
-  `https://archmage.saengil.ai/`. Internal environment: `github-pages`.
+  `archmage.saengil.ai`. Internal environment: `github-pages`. The domain is
+  configured and verified, but production acceptance remains blocked on its
+  certificate and HTTPS enforcement; use the
+  [launch runbook](docs/specs/archmage-site/LAUNCH_RUNBOOK.md).
 - `main` protection: require pull requests and 12 strict status checks, enforce
   rules for administrators, require linear history and resolved conversations,
   and block force pushes and deletion. The review count is zero because GitHub
