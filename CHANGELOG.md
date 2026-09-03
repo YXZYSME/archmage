@@ -8,6 +8,22 @@ on Keep a Changelog, and the project uses Semantic Versioning.
 
 ## [Unreleased]
 
+### Added
+
+- WEB-ARCHMAGE-001 site handoff package under `docs/specs/archmage-site/`.
+
+### Fixed
+
+- Normalize release checksum path entries so SHA256SUMS matches flat GitHub
+  release asset names (post-v2.0.0 publication fix).
+
+### Changed
+
+- Document custom-domain launch status accurately: a certificate for
+  `archmage.saengil.ai` may be present while HTTP→HTTPS redirect /
+  `https_enforced` evidence remains outstanding. Do not advertise the custom
+  host as canonical until those gates pass.
+
 ## [2.0.0] - 2026-08-25
 
 ### Security

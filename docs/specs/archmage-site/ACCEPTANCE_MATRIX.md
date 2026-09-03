@@ -7,6 +7,7 @@
 |---|---|
 | Baseline | Public `v2.0.0` documentation and Pages configuration |
 | Assessed | 2026-08-25 |
+| TLS evidence refresh | 2026-09-03 |
 | Site handoff | READY FOR IMPLEMENTATION |
 | Production launch | NO-GO |
 
@@ -103,11 +104,11 @@ domain while the row is anything other than `PASS`.
 | SITE-DNS-001 | Explicit CNAME targets `yxzysme.github.io.` | DNS owner | Authoritative/public DNS observation | PASS | Yes |
 | SITE-DNS-002 | `saengil.ai` remains verified and the challenge TXT is retained | Domain owner | Pages API says verified; TXT observed | PASS | Yes |
 | SITE-DNS-003 | No conflicting record, DNS proxy, wildcard takeover, or restrictive CAA blocks issuance | DNS owner | CNAME and no CAA observed; authoritative provider review still required | READY TO VERIFY | Yes |
-| SITE-TLS-001 | GitHub attaches a certificate covering `archmage.saengil.ai` | Repository administrator | Pages certificate absent; GitHub wildcard does not cover host | BLOCKED | Yes |
-| SITE-TLS-002 | Pages reports `https_enforced: true` | Repository administrator | Currently false | BLOCKED | Yes |
-| SITE-TLS-003 | HTTP redirects to the same HTTPS host | Repository administrator | HTTP currently returns 200 without redirect | BLOCKED | Yes |
-| SITE-TLS-004 | Canonical HTTPS critical routes return 200 without bypass | Repository administrator | Invalid hostname certificate prevents normal client acceptance | BLOCKED | Yes |
-| SITE-TLS-005 | Default GitHub Pages URL redirects to validated HTTPS custom host | Repository administrator | Currently redirects to HTTP custom host | BLOCKED | Yes |
+| SITE-TLS-001 | GitHub attaches a certificate covering `archmage.saengil.ai` | Repository administrator | Valid Let's Encrypt certificate covering `archmage.saengil.ai` observed at the edge on 2026-09-03 (issued 2026-09-03, Let's Encrypt YR2). Pages API certificate object not recaptured. | READY TO VERIFY | Yes |
+| SITE-TLS-002 | Pages reports `https_enforced: true` | Repository administrator | Pages API `https_enforced` not recaptured. An HTTP 301 to HTTPS is not a substitute for the API field. | READY TO VERIFY | Yes |
+| SITE-TLS-003 | HTTP redirects to the same HTTPS host | Repository administrator | `http://archmage.saengil.ai/` returned 301 to `https://archmage.saengil.ai/` from one public vantage point on 2026-09-03. Formal launch-evidence package not captured. | READY TO VERIFY | Yes |
+| SITE-TLS-004 | Canonical HTTPS critical routes return 200 without bypass | Repository administrator | HTTPS home, `/quickstart/`, `/architecture/`, `/limitations/`, and `/supply-chain/` returned 200 with a hostname-valid certificate on 2026-09-03. Formal launch-evidence package not captured. | READY TO VERIFY | Yes |
+| SITE-TLS-005 | Default GitHub Pages URL redirects to validated HTTPS custom host | Repository administrator | `https://yxzysme.github.io/archmage/` returned 301 to `https://archmage.saengil.ai/` on 2026-09-03. Formal launch-evidence package not captured. | READY TO VERIFY | Yes |
 
 ## Operations and launch
 
@@ -126,11 +127,19 @@ domain while the row is anything other than `PASS`.
 The spec package is ready for implementation handoff. The site is not ready to
 be advertised as the canonical production documentation surface.
 
+Certificate issuance is no longer the unique external blocker. A hostname-valid
+Let's Encrypt certificate was observed at the edge on 2026-09-03, and HTTP and
+default-host redirects to HTTPS were observed from one vantage point. Those
+rows are `READY TO VERIFY` until Pages API `https_enforced` and a formal
+launch-evidence package are captured. Do not treat the custom host as
+canonical while those gates, or any other launch-critical non-`PASS` row,
+remain open.
+
 The immediate critical path is:
 
 1. implement the content, theme, accessibility, metadata, and validation gaps;
 2. rerun the build and deployment evidence;
-3. execute the certificate recovery runbook;
-4. enable and verify HTTPS;
-5. close every launch-critical non-`PASS` row; and
-6. record explicit go/no-go approval.
+3. recapture Pages API `https_enforced` and the formal TLS launch-evidence
+   package;
+4. close every launch-critical non-`PASS` row; and
+5. record explicit go/no-go approval.
