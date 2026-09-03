@@ -7,13 +7,14 @@
 |---|---|
 | Spec ID | `WEB-ARCHMAGE-001` |
 | Site | `archmage.saengil.ai` |
-| Status | **READY FOR IMPLEMENTATION — LAUNCH BLOCKED ON TLS** |
+| Status | **READY FOR IMPLEMENTATION — CANONICAL HOST NO-GO** |
 | Product owner | YXZYS |
 | Delivery owner | `YXZYSME/archmage` maintainer |
 | Approved proposal | [#11](https://github.com/YXZYSME/archmage/issues/11) |
 | Platform | MkDocs Material → GitHub Actions → GitHub Pages |
 | Canonical release | `archmage-ai==2.0.0` |
 | Snapshot date | 2026-08-25 |
+| TLS evidence refresh | 2026-09-03 |
 
 ## Purpose
 
@@ -52,17 +53,24 @@ application, account surface, policy service, or marketing claims layer.
    record. The site explains and links to them; it does not reproduce mutable
    trust evidence without a version and source.
 
-## Current launch blocker
+## Current launch status
 
 The source and Pages workflow are healthy, DNS resolves to GitHub Pages, and
-GitHub reports the custom domain as verified. GitHub has not attached a
-certificate for `archmage.saengil.ai` and `https_enforced` is false. HTTPS
-currently presents a `*.github.io` certificate that does not cover the custom
-hostname.
+GitHub reports the custom domain as verified. A valid Let's Encrypt certificate
+covering `archmage.saengil.ai` was observed at the edge on 2026-09-03 (issued
+2026-09-03, Let's Encrypt YR2). That observation does **not** make the custom
+host canonical.
 
-This is an external launch blocker, not a documentation-build failure. Until it
-is cleared, public release communications MUST use immutable GitHub documentation
-links or the repository documentation source.
+Remaining TLS launch work is evidence, not issuance: Pages API
+`https_enforced` has not been recaptured, and a formal launch-evidence package
+has not been recorded. An HTTP 301 to `https://archmage.saengil.ai/` was also
+observed from one public vantage point on 2026-09-03; treat that as
+`READY TO VERIFY`, not as accepted HTTPS enforcement.
+
+Independent of TLS, many launch-critical content, accessibility, metadata, and
+validation rows remain non-`PASS`. Until every launch-critical row passes and a
+maintainer records go, public release communications MUST use immutable GitHub
+documentation links or the repository documentation source.
 
 ## Handoff-ready definition
 
@@ -82,6 +90,7 @@ The specification package is ready for implementation when:
 
 1. Implement the site requirements and close `NOT IMPLEMENTED` rows.
 2. Pass local and hosted documentation gates.
-3. Execute the custom-domain recovery runbook.
+3. Recapture Pages API `https_enforced` and the formal TLS launch-evidence
+   package. Certificate recovery is no longer the unique external blocker.
 4. Close all `BLOCKED` and `READY TO VERIFY` launch rows with captured evidence.
 5. Record maintainer go/no-go approval and advertise the canonical domain.

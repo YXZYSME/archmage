@@ -152,9 +152,10 @@ tools. Report suspected vulnerabilities through the private route documented in
 ## Documentation
 
 - [Documentation source](docs/index.md)
+- [Changelog](CHANGELOG.md)
 - [Site implementation handoff](docs/specs/archmage-site/README.md)
-- Custom domain: `archmage.saengil.ai` (launch pending certificate and HTTPS
-  acceptance)
+- Custom domain: `archmage.saengil.ai` (certificate issued; canonical host
+  remains NO-GO until HTTPS redirect / `https_enforced` evidence is accepted)
 - [Quickstart](docs/quickstart.md)
 - [Core concepts](docs/concepts.md)
 - [Policy model](docs/policy-model.md)
