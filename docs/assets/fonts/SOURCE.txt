@@ -1,0 +1,31 @@
+YXZYS | saeng-il ai [integration] — © YXZYS @ saengil.ai
+
+Self-hosted JetBrains Mono webfonts for the ARCHMAGE documentation site.
+These files are vendored so MkDocs Material can disable remote Google Fonts
+(theme.font: false) without introducing a font CDN at runtime.
+
+Family: JetBrains Mono
+Weights: 400 Regular, 700 Bold
+Format: WOFF2
+License: SIL Open Font License, Version 1.1 (see OFL.txt)
+Upstream repository: https://github.com/JetBrains/JetBrainsMono
+Release tag: v2.304
+Tag commit: cd5227bd1f61dff3bbd6c814ceaf7ffd95e947d9
+Retrieved: 2026-09-03
+
+Files and SHA-256 digests of the retrieved bytes:
+
+  JetBrainsMono-Regular.woff2
+    URL: https://raw.githubusercontent.com/JetBrains/JetBrainsMono/v2.304/fonts/webfonts/JetBrainsMono-Regular.woff2
+    sha256: a9cb1cd82332b23a47e3a1239d25d13c86d16c4220695e34b243effa999f45f2
+
+  JetBrainsMono-Bold.woff2
+    URL: https://raw.githubusercontent.com/JetBrains/JetBrainsMono/v2.304/fonts/webfonts/JetBrainsMono-Bold.woff2
+    sha256: c503cc5ec5f8b2c7666b7ecda1adf44bd45f2e6579b2eba0fc292150416588a2
+
+  OFL.txt
+    URL: https://raw.githubusercontent.com/JetBrains/JetBrainsMono/v2.304/OFL.txt
+    sha256: 30f0c136e3c88e422d0791acd97238870f9054a9729bc34cf2ff0d4ed8cac4ad
+
+Project page: https://www.jetbrains.com/lp/mono/
+OFL FAQ: https://scripts.sil.org/OFL
