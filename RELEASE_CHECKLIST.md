@@ -22,7 +22,7 @@ package-publication gate.
 | Security scan and threat model | Green locally | The standard scan reviewed 76/76 files; its one medium and three low findings are remediated with regression tests. No high or critical findings were reported. |
 | Docs | Green on `v2.0.0` | MkDocs content, strict hosted build gate, and a SHA-pinned, public-visibility-gated Pages workflow pass. |
 | Benchmarks | Green on `v2.0.0` | Release artifacts identify commit `0ce6633f420aee75ee2a8140680d03b6cdfa95eb`, case versions, runtime, platform, and environment details. |
-| Public repository controls | Green | Dependabot security updates, secret scanning, push protection, private vulnerability reporting, and strict `main` protection are enabled. Pages deployment, DNS, custom-domain TLS, and HTTPS enforcement are healthy. YXZYS recorded production GO for `https://archmage.saengil.ai/` on 2026-09-03. See the [site handoff](docs/specs/archmage-site/README.md). |
+| Public repository controls | Green | Dependabot security updates, secret scanning, push protection, private vulnerability reporting, and strict `main` protection are enabled. Pages deployment, DNS, custom-domain TLS, and HTTPS enforcement are healthy. Pages API `https_enforced: true`. Pages UI (Settings → Pages, read-only, 2026-09-03 morning CT): custom domain `archmage.saengil.ai`, DNS check successful, Enforce HTTPS checked/enabled, live banner `https://archmage.saengil.ai/`, no certificate-provisioning warning. YXZYS recorded production GO on 2026-09-03. See the [site handoff](docs/specs/archmage-site/README.md). |
 
 ## Public repository launch gates
 
@@ -67,11 +67,15 @@ pre-sanitization remote is preserved in
   `archmage.saengil.ai`. Internal environment: `github-pages`. Production GO
   2026-09-03: the domain is verified; Pages API reports `https_enforced: true`
   and an approved Let's Encrypt certificate covering `archmage.saengil.ai`
-  (`https_certificate.state=approved`, expires 2026-12-02). Canonical host:
-  `https://archmage.saengil.ai/`. Edge capture ~2026-09-03T13:03Z UTC: HTTP
-  301 to HTTPS, critical HTTPS routes 200 without TLS bypass, CNAME to
-  `yxzysme.github.io.`, challenge TXT retained, no CAA on the custom host.
-  See the [site handoff](docs/specs/archmage-site/README.md).
+  (`https_certificate.state=approved`, expires 2026-12-02). Pages UI
+  (Settings → Pages, read-only, 2026-09-03 morning CT): custom domain
+  `archmage.saengil.ai`, DNS check successful, Enforce HTTPS checked/enabled,
+  live banner `https://archmage.saengil.ai/`, no certificate-provisioning
+  warning. Canonical host: `https://archmage.saengil.ai/`. Edge capture
+  ~2026-09-03T13:03Z UTC: HTTP 301 to HTTPS, critical HTTPS routes 200
+  without TLS bypass, CNAME to `yxzysme.github.io.`, challenge TXT retained,
+  no CAA on the custom host. See the
+  [site handoff](docs/specs/archmage-site/README.md).
 - `main` protection: require pull requests and 12 strict status checks, enforce
   rules for administrators, require linear history and resolved conversations,
   and block force pushes and deletion. The review count is zero because GitHub
