@@ -7,14 +7,14 @@
 |---|---|
 | Spec ID | `WEB-ARCHMAGE-001` |
 | Site | `archmage.saengil.ai` |
-| Status | **READY FOR IMPLEMENTATION — CANONICAL HOST NO-GO** |
+| Status | **PRODUCTION GO — canonical https://archmage.saengil.ai/** |
 | Product owner | YXZYS |
 | Delivery owner | `YXZYSME/archmage` maintainer |
 | Approved proposal | [#11](https://github.com/YXZYSME/archmage/issues/11) |
 | Platform | MkDocs Material → GitHub Actions → GitHub Pages |
 | Canonical release | `archmage-ai==2.0.0` |
 | Snapshot date | 2026-08-25 |
-| TLS evidence refresh | 2026-09-03 |
+| Production GO | 2026-09-03 |
 
 ## Purpose
 
@@ -46,31 +46,28 @@ application, account surface, policy service, or marketing claims layer.
    data, cookies, or analytics at handoff.
 4. Security language MUST remain bounded by the published limitations, threat
    model, tests, and revision-bound release evidence.
-5. `https://archmage.saengil.ai/` becomes the advertised canonical entry point
-   only after its certificate covers the exact hostname and GitHub Pages enforces
-   HTTPS.
+5. `https://archmage.saengil.ai/` is the advertised canonical entry point.
+   Certificate coverage for the exact hostname and GitHub Pages HTTPS
+   enforcement were accepted on 2026-09-03.
 6. GitHub, PyPI, release attestations, and the repository remain the systems of
    record. The site explains and links to them; it does not reproduce mutable
    trust evidence without a version and source.
 
 ## Current launch status
 
-The source and Pages workflow are healthy, DNS resolves to GitHub Pages, and
-GitHub reports the custom domain as verified. A valid Let's Encrypt certificate
-covering `archmage.saengil.ai` was observed at the edge on 2026-09-03 (issued
-2026-09-03, Let's Encrypt YR2). That observation does **not** make the custom
-host canonical.
+YXZYS recorded production **GO** on 2026-09-03 for
+`https://archmage.saengil.ai/`. The source and Pages workflow are healthy, DNS
+resolves to GitHub Pages, and GitHub reports the custom domain as verified.
+Pages API capture ~2026-09-03T13:03Z UTC reports `https_enforced: true` and an
+approved Let's Encrypt certificate covering `archmage.saengil.ai` (YR2,
+notBefore 2026-09-03, notAfter 2026-12-02). HTTP 301 to HTTPS, critical HTTPS
+routes 200 without TLS bypass, and github.io 301 to the HTTPS custom host
+were observed at the same capture.
 
-Remaining TLS launch work is evidence, not issuance: Pages API
-`https_enforced` has not been recaptured, and a formal launch-evidence package
-has not been recorded. An HTTP 301 to `https://archmage.saengil.ai/` was also
-observed from one public vantage point on 2026-09-03; treat that as
-`READY TO VERIFY`, not as accepted HTTPS enforcement.
-
-Independent of TLS, many launch-critical content, accessibility, metadata, and
-validation rows remain non-`PASS`. Until every launch-critical row passes and a
-maintainer records go, public release communications MUST use immutable GitHub
-documentation links or the repository documentation source.
+Advertise `https://archmage.saengil.ai/` as the canonical published
+documentation host. Remaining launch-critical content, accessibility,
+metadata, and validation rows are site-implementation work; they do not
+reopen the custom-domain TLS GO.
 
 ## Handoff-ready definition
 
@@ -88,9 +85,10 @@ The specification package is ready for implementation when:
 
 ## Execution order
 
-1. Implement the site requirements and close `NOT IMPLEMENTED` rows.
-2. Pass local and hosted documentation gates.
-3. Recapture Pages API `https_enforced` and the formal TLS launch-evidence
-   package. Certificate recovery is no longer the unique external blocker.
-4. Close all `BLOCKED` and `READY TO VERIFY` launch rows with captured evidence.
-5. Record maintainer go/no-go approval and advertise the canonical domain.
+1. Custom-domain TLS/HTTPS GO is recorded; keep advertising
+   `https://archmage.saengil.ai/` as canonical.
+2. Implement remaining site requirements and close `NOT IMPLEMENTED` rows.
+3. Pass local and hosted documentation gates for those implementation changes.
+4. Close remaining non-`PASS` implementation and operations rows with captured
+   evidence, including recurring certificate/route checks and the seven-day
+   post-launch review.

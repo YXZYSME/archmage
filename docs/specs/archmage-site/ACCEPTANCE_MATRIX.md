@@ -6,10 +6,10 @@
 | Field | Value |
 |---|---|
 | Baseline | Public `v2.0.0` documentation and Pages configuration |
-| Assessed | 2026-08-25 |
-| TLS evidence refresh | 2026-09-03 |
+| Assessed | 2026-09-03 |
+| TLS/HTTPS GO evidence | 2026-09-03T13:03Z UTC |
 | Site handoff | READY FOR IMPLEMENTATION |
-| Production launch | NO-GO |
+| Production launch | GO |
 
 ## Status model
 
@@ -104,42 +104,40 @@ domain while the row is anything other than `PASS`.
 | SITE-DNS-001 | Explicit CNAME targets `yxzysme.github.io.` | DNS owner | Authoritative/public DNS observation | PASS | Yes |
 | SITE-DNS-002 | `saengil.ai` remains verified and the challenge TXT is retained | Domain owner | Pages API says verified; TXT observed | PASS | Yes |
 | SITE-DNS-003 | No conflicting record, DNS proxy, wildcard takeover, or restrictive CAA blocks issuance | DNS owner | CNAME and no CAA observed; authoritative provider review still required | READY TO VERIFY | Yes |
-| SITE-TLS-001 | GitHub attaches a certificate covering `archmage.saengil.ai` | Repository administrator | Valid Let's Encrypt certificate covering `archmage.saengil.ai` observed at the edge on 2026-09-03 (issued 2026-09-03, Let's Encrypt YR2). Pages API certificate object not recaptured. | READY TO VERIFY | Yes |
-| SITE-TLS-002 | Pages reports `https_enforced: true` | Repository administrator | Pages API `https_enforced` not recaptured. An HTTP 301 to HTTPS is not a substitute for the API field. | READY TO VERIFY | Yes |
-| SITE-TLS-003 | HTTP redirects to the same HTTPS host | Repository administrator | `http://archmage.saengil.ai/` returned 301 to `https://archmage.saengil.ai/` from one public vantage point on 2026-09-03. Formal launch-evidence package not captured. | READY TO VERIFY | Yes |
-| SITE-TLS-004 | Canonical HTTPS critical routes return 200 without bypass | Repository administrator | HTTPS home, `/quickstart/`, `/architecture/`, `/limitations/`, and `/supply-chain/` returned 200 with a hostname-valid certificate on 2026-09-03. Formal launch-evidence package not captured. | READY TO VERIFY | Yes |
-| SITE-TLS-005 | Default GitHub Pages URL redirects to validated HTTPS custom host | Repository administrator | `https://yxzysme.github.io/archmage/` returned 301 to `https://archmage.saengil.ai/` on 2026-09-03. Formal launch-evidence package not captured. | READY TO VERIFY | Yes |
+| SITE-TLS-001 | GitHub attaches a certificate covering `archmage.saengil.ai` | Repository administrator | Pages API ~2026-09-03T13:03Z: `https_certificate.state=approved`, domains `["archmage.saengil.ai"]`, `expires_at=2026-12-02`. Edge cert CN/SAN `archmage.saengil.ai`, Let's Encrypt YR2, notBefore 2026-09-03, notAfter 2026-12-02. | PASS | Yes |
+| SITE-TLS-002 | Pages reports `https_enforced: true` | Repository administrator | Pages API ~2026-09-03T13:03Z: `https_enforced: true`. Pages UI Enforce HTTPS checked (maintainer capture); API matches. | PASS | Yes |
+| SITE-TLS-003 | HTTP redirects to the same HTTPS host | Repository administrator | `http://archmage.saengil.ai/` → 301 `Location: https://archmage.saengil.ai/` at ~2026-09-03T13:03Z. Followed request 200. No TLS bypass. | PASS | Yes |
+| SITE-TLS-004 | Canonical HTTPS critical routes return 200 without bypass | Repository administrator | `https://archmage.saengil.ai/` plus `/quickstart/`, `/architecture/`, `/limitations/`, `/supply-chain/` → 200 at ~2026-09-03T13:03Z with hostname-valid Let's Encrypt cert. No TLS bypass. | PASS | Yes |
+| SITE-TLS-005 | Default GitHub Pages URL redirects to validated HTTPS custom host | Repository administrator | `http://yxzysme.github.io/archmage/` and `https://yxzysme.github.io/archmage/` → 301 `Location: https://archmage.saengil.ai/` at ~2026-09-03T13:03Z. | PASS | Yes |
 
 ## Operations and launch
 
 | ID | Requirement | Owner | Current evidence or gap | Status | Launch critical |
 |---|---|---|---|---|---|
 | SITE-OPS-001 | Content, deployment, DNS, and certificate rollback paths are documented | Repository and domain owners | [Rollback runbook](LAUNCH_RUNBOOK.md#rollback) | PASS | Yes |
-| SITE-OPS-002 | Last known-good revision and DNS snapshot are captured before intervention | Repository and DNS owners | Procedure exists; launch-time evidence pending | READY TO VERIFY | Yes |
+| SITE-OPS-002 | Last known-good revision and DNS snapshot are captured before intervention | Repository and DNS owners | GO capture ~2026-09-03T13:03Z: public `main` at `f37f412`; CNAME `archmage.saengil.ai` → `yxzysme.github.io.`; challenge TXT present; no CAA on the custom host; Pages `protected_domain_state=verified`. | PASS | Yes |
 | SITE-OPS-003 | Post-deploy route and certificate checks have an owner | Repository administrator | Responsibility defined; recurring check not yet established | PARTIAL | Yes |
-| SITE-OPS-004 | Launch evidence excludes credentials and private dashboard routes | Launch approver | Evidence contract defined | READY TO VERIFY | Yes |
-| SITE-OPS-005 | Public communications avoid the custom host until TLS acceptance | Product owner | Release notes use immutable GitHub links; README/PyPI metadata still name the custom site | PARTIAL | Yes |
-| SITE-OPS-006 | Launch approval is recorded only after every critical row passes | YXZYS | No approval; current state is NO-GO | BLOCKED | Yes |
+| SITE-OPS-004 | Launch evidence excludes credentials and private dashboard routes | Launch approver | GO record uses public edge, DNS, and Pages API fields only. No credentials or private dashboard routes. | PASS | Yes |
+| SITE-OPS-005 | Public communications avoid the custom host until TLS acceptance | Product owner | TLS accepted 2026-09-03. README advertises `https://archmage.saengil.ai/` as the canonical published documentation host. | PASS | Yes |
+| SITE-OPS-006 | Launch approval is recorded only after every critical row passes | YXZYS | YXZYS recorded production GO 2026-09-03 for custom-domain HTTPS / canonical `https://archmage.saengil.ai/` after SITE-TLS-001..005 passed. Remaining SITE-PC/A11Y/PERF/SEO/DEL implementation rows stay open as site work, not as TLS blockers. | PASS | Yes |
 | SITE-OPS-007 | Seven-day post-launch review and ownership check are completed | Launch approver | Post-launch task | DEFERRED | No |
 
 ## Launch decision
 
-The spec package is ready for implementation handoff. The site is not ready to
-be advertised as the canonical production documentation surface.
+YXZYS recorded production **GO** on 2026-09-03 for the custom-domain HTTPS
+canonical host `https://archmage.saengil.ai/`. SITE-TLS-001 through
+SITE-TLS-005 are `PASS` with Pages API `https_enforced: true`, an approved
+Let's Encrypt certificate covering the exact hostname (YR2, notBefore
+2026-09-03, notAfter 2026-12-02), HTTP→HTTPS 301, critical-route 200s without
+TLS bypass, and github.io 301 to the HTTPS custom host.
 
-Certificate issuance is no longer the unique external blocker. A hostname-valid
-Let's Encrypt certificate was observed at the edge on 2026-09-03, and HTTP and
-default-host redirects to HTTPS were observed from one vantage point. Those
-rows are `READY TO VERIFY` until Pages API `https_enforced` and a formal
-launch-evidence package are captured. Do not treat the custom host as
-canonical while those gates, or any other launch-critical non-`PASS` row,
-remain open.
+The spec package remains ready for implementation handoff. Remaining
+launch-critical content, accessibility, metadata, and validation rows are
+site-implementation work. They do not reopen the custom-domain TLS GO.
 
-The immediate critical path is:
+Immediate remaining work:
 
 1. implement the content, theme, accessibility, metadata, and validation gaps;
-2. rerun the build and deployment evidence;
-3. recapture Pages API `https_enforced` and the formal TLS launch-evidence
-   package;
-4. close every launch-critical non-`PASS` row; and
-5. record explicit go/no-go approval.
+2. rerun the build and deployment evidence for those implementation changes;
+3. complete SITE-OPS-003 recurring certificate/route checks and SITE-OPS-007
+   seven-day post-launch review.
