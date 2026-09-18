@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "archmage": {
+      "command": "python",
+      "args": ["-m", "archmage.mcp"],
+      "env": {
+        "ARCHMAGE_AUDIT_LOG": "${CLAUDE_PLUGIN_ROOT}/audit.jsonl"
+      }
+    }
+  }
+}

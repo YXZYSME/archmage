@@ -1,0 +1,47 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.YXZYSME/archmage",
+  "title": "ARCHMAGE",
+  "description": "Deterministic pre-execution control for coding-agent actions.",
+  "version": "2.0.0",
+  "websiteUrl": "https://archmage.saengil.ai/",
+  "repository": {
+    "url": "https://github.com/YXZYSME/archmage",
+    "source": "github",
+    "id": "1316331640"
+  },
+  "packages": [
+    {
+      "registryType": "pypi",
+      "registryBaseUrl": "https://pypi.org",
+      "identifier": "archmage-ai",
+      "version": "2.0.0",
+      "runtimeHint": "uvx",
+      "runtimeArguments": [
+        {
+          "type": "named",
+          "name": "--from",
+          "value": "archmage-ai"
+        }
+      ],
+      "packageArguments": [
+        {
+          "type": "positional",
+          "value": "archmage-mcp",
+          "valueHint": "entrypoint"
+        }
+      ],
+      "environmentVariables": [
+        {
+          "name": "ARCHMAGE_AUDIT_LOG",
+          "description": "Path for durable policy and reconciliation audit records.",
+          "format": "filepath",
+          "isRequired": true
+        }
+      ],
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}

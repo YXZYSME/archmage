@@ -39,6 +39,7 @@ nav:
   - Policy model: policy-model.md
   - Architecture: architecture.md
   - Agent Plugin: agent-plugin.md
+  - MCPB local bundle: mcpb.md
   - Adapters: adapters.md
   - Custom evaluators: custom-evaluators.md
   - Benchmarks: benchmarks.md

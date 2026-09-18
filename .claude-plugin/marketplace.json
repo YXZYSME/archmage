@@ -1,0 +1,23 @@
+{
+  "name": "archmage",
+  "description": "ARCHMAGE marketplace: deterministic pre-execution policy for coding-agent actions.",
+  "owner": {
+    "name": "YXZYSME",
+    "email": "yxzys@proton.me",
+    "url": "https://github.com/YXZYSME"
+  },
+  "plugins": [
+    {
+      "name": "archmage",
+      "source": "./plugins/archmage",
+      "description": "PreToolUse hook and local stdio MCP server that map ARCHMAGE verdicts to allow, deny, or ask.",
+      "version": "2.0.0",
+      "author": {
+        "name": "YXZYS",
+        "email": "yxzys@proton.me"
+      },
+      "category": "security",
+      "tags": ["policy", "governance", "mcp", "pretooluse"]
+    }
+  ]
+}

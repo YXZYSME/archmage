@@ -12,7 +12,7 @@
 | LangGraph | Roadmap | No shipped adapter |
 | AutoGen / CrewAI | Roadmap | No shipped adapter |
 | LlamaIndex | Roadmap | No shipped adapter |
-| MCP server | Roadmap | No shipped adapter |
+| MCP stdio server | Available | `python -m archmage.mcp` / `archmage-mcp`; unit tests |
 
 ## Required execution context
 
