@@ -10,6 +10,14 @@ on Keep a Changelog, and the project uses Semantic Versioning.
 
 ### Added
 
+- Official MCP Registry draft `server.json` for PyPI stdio package
+  `archmage-ai` (`io.github.YXZYSME/archmage`).
+- Claude Code marketplace (`.claude-plugin/marketplace.json`) and
+  `plugins/archmage/` PreToolUse plugin, kept separate from `agent-plugin/`.
+- Maintainer registry runbook (`REGISTRY_SUBMISSIONS.md`) and MCPB path-B
+  notes (`docs/mcpb.md`).
+- README local stdio MCP configs and PyPI ownership marker
+  `<!-- mcp-name: io.github.YXZYSME/archmage -->`.
 - WEB-ARCHMAGE-001 site handoff package under `docs/specs/archmage-site/`.
 
 ### Fixed

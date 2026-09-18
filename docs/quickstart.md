@@ -88,4 +88,5 @@ obligations are acknowledged.
 
 - Review the [adapter context contract](adapters.md).
 - Learn the [verdict precedence model](policy-model.md).
+- For Claude Desktop or Smithery, use the [local MCPB path](mcpb.md).
 - Run the [gold cases](benchmarks.md).

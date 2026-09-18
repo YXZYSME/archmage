@@ -15,7 +15,8 @@ that decision authoritative at the tool boundary.
 1. Follow the [quickstart](quickstart.md).
 2. Read the [concepts](concepts.md) and [security limitations](limitations.md).
 3. Choose an [adapter](adapters.md).
-4. Run the [benchmark suite](benchmarks.md) against your integration.
+4. For Claude Desktop or Smithery, use the [local MCPB path](mcpb.md).
+5. Run the [benchmark suite](benchmarks.md) against your integration.
 
 ## Public wedge
 

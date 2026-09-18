@@ -1,5 +1,6 @@
 <!-- YXZYS | saeng-il ai [development] — © YXZYS @ saengil.ai -->
 <!-- yxzys:sg:ai -->
+<!-- mcp-name: io.github.YXZYSME/archmage -->
 
 <div align="center">
   <img src="assets/banner.jpg" alt="ARCHMAGE" width="400">
@@ -106,6 +107,93 @@ extracted archive, and never submitted to PyPI or Python metadata validation.
 See the [Agent Plugin guide](docs/agent-plugin.md) for the trust boundary and
 installation sequence.
 
+## MCP clients (local stdio)
+
+ARCHMAGE's MCP server is local stdio only. There is no hosted URL. Official
+registry name: `io.github.YXZYSME/archmage`.
+
+Install the package, then point the client at `python -m archmage.mcp` or the
+`archmage-mcp` console script. Both require an audit-log path via
+`ARCHMAGE_AUDIT_LOG` or `--audit-log`.
+
+```bash
+python -m pip install archmage-ai
+mkdir -p "$HOME/.archmage"
+```
+
+### Claude Desktop (`claude_desktop_config.json`)
+
+```json
+{
+  "mcpServers": {
+    "archmage": {
+      "command": "python",
+      "args": ["-m", "archmage.mcp"],
+      "env": {
+        "ARCHMAGE_AUDIT_LOG": "/ABS/PATH/TO/archmage-audit.jsonl"
+      }
+    }
+  }
+}
+```
+
+Equivalent after `archmage-mcp` is on `PATH`:
+
+```json
+{
+  "mcpServers": {
+    "archmage": {
+      "command": "archmage-mcp",
+      "env": {
+        "ARCHMAGE_AUDIT_LOG": "/ABS/PATH/TO/archmage-audit.jsonl"
+      }
+    }
+  }
+}
+```
+
+### Claude Code / Claude CLI
+
+```bash
+claude mcp add --transport stdio archmage \
+  --env ARCHMAGE_AUDIT_LOG="$HOME/.archmage/audit.jsonl" \
+  -- python -m archmage.mcp
+```
+
+```bash
+claude mcp add --transport stdio archmage \
+  --env ARCHMAGE_AUDIT_LOG="$HOME/.archmage/audit.jsonl" \
+  -- archmage-mcp
+```
+
+Claude Code can also install the PreToolUse plugin from this repository:
+
+```text
+/plugin marketplace add YXZYSME/archmage
+/plugin install archmage@archmage
+```
+
+### Cursor (`.cursor/mcp.json` or `mcp.json`)
+
+```json
+{
+  "mcpServers": {
+    "archmage": {
+      "command": "python",
+      "args": ["-m", "archmage.mcp"],
+      "env": {
+        "ARCHMAGE_AUDIT_LOG": "/ABS/PATH/TO/archmage-audit.jsonl"
+      }
+    }
+  }
+}
+```
+
+Replace `/ABS/PATH/TO/archmage-audit.jsonl` with a real writable path. Registry
+listing steps that a maintainer must still perform by hand are in
+[REGISTRY_SUBMISSIONS.md](REGISTRY_SUBMISSIONS.md). MCPB / Smithery path B is
+documented in [docs/mcpb.md](docs/mcpb.md).
+
 ## What is included
 
 - Eleven deterministic core evaluators with fail-closed aggregation.
@@ -160,6 +248,8 @@ tools. Report suspected vulnerabilities through the private route documented in
 - [Policy model](docs/policy-model.md)
 - [Architecture](docs/architecture.md)
 - [Agent Plugin](docs/agent-plugin.md)
+- [MCPB / Smithery local bundle](docs/mcpb.md)
+- [Registry submissions (manual)](REGISTRY_SUBMISSIONS.md)
 - [Adapters](docs/adapters.md)
 - [Writing custom evaluators](docs/custom-evaluators.md)
 - [Benchmarks](docs/benchmarks.md)

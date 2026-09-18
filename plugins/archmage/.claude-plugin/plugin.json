@@ -1,0 +1,20 @@
+{
+  "name": "archmage",
+  "description": "Deterministic pre-execution policy for coding-agent actions via a local stdio MCP server and PreToolUse hook.",
+  "version": "2.0.0",
+  "author": {
+    "name": "YXZYS",
+    "email": "yxzys@proton.me",
+    "url": "https://saengil.ai"
+  },
+  "homepage": "https://archmage.saengil.ai/",
+  "repository": "https://github.com/YXZYSME/archmage",
+  "license": "Apache-2.0",
+  "keywords": [
+    "agent-governance",
+    "policy-enforcement",
+    "mcp",
+    "security",
+    "pretooluse"
+  ]
+}
