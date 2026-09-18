@@ -7,8 +7,11 @@
 from __future__ import annotations
 
 import json
+import tempfile
 import unittest
 from pathlib import Path
+
+from skills_ref import validate as validate_agent_skill
 
 from archmage import __version__
 
@@ -84,6 +87,16 @@ class TestRegistryListings(unittest.TestCase):
     def test_glama_json_names_maintainer(self) -> None:
         glama = json.loads((REPO_ROOT / "glama.json").read_text(encoding="utf-8"))
         self.assertEqual(glama["maintainers"], ["YXZYSME"])
+
+    def test_root_skill_frontmatter_matches_agentskills_spec(self) -> None:
+        text = (REPO_ROOT / "SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("name: archmage", text)
+        self.assertIn("license: Apache-2.0", text)
+        with tempfile.TemporaryDirectory() as directory:
+            skill_directory = Path(directory) / "archmage"
+            skill_directory.mkdir()
+            (skill_directory / "SKILL.md").write_text(text, encoding="utf-8")
+            self.assertEqual(validate_agent_skill(skill_directory), [])
 
     def test_agent_plugin_template_is_untouched(self) -> None:
         manifest = json.loads(
