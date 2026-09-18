@@ -11,7 +11,10 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from skills_ref import validate as validate_agent_skill
+try:
+    from skills_ref import validate as validate_agent_skill
+except ImportError:  # skills-ref is optional below Python 3.11
+    validate_agent_skill = None
 
 from archmage import __version__
 
@@ -91,7 +94,12 @@ class TestRegistryListings(unittest.TestCase):
     def test_root_skill_frontmatter_matches_agentskills_spec(self) -> None:
         text = (REPO_ROOT / "SKILL.md").read_text(encoding="utf-8")
         self.assertIn("name: archmage", text)
+        self.assertIn("description:", text)
         self.assertIn("license: Apache-2.0", text)
+        self.assertIn("compatibility:", text)
+        self.assertIn("metadata:", text)
+        if validate_agent_skill is None:
+            return
         with tempfile.TemporaryDirectory() as directory:
             skill_directory = Path(directory) / "archmage"
             skill_directory.mkdir()
